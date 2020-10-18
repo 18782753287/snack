@@ -1,0 +1,249 @@
+{extend name="../common/admin_model"}
+{block name="title"}管理员主页{/block}
+{block name="main"}
+<div id="main_body">
+    <!--收入统计-->
+    <div id="statistics">
+        <table>
+            <tr style="color: white">
+                <th>平台累计收益</th>
+                <th>平台本月收益</th>
+                <th>平台今日收益</th>
+                <th>平台昨日收益</th>
+            </tr>
+            <tr style="color: gold">
+                <th>{$all_profit_order}￥</th>
+                <th>{$month_profit_order}￥</th>
+                <th>{$day_profit_order}￥</th>
+                <th>{$yesterday_profit_order}￥</th>
+            </tr>
+        </table>
+    </div>
+    <div id="center">
+        <!--总收益详情-->
+        <div id="all">
+            <table width="100%" style="position: absolute;top: 35px;">
+                <tr>
+                    <th style="color: white">累计收款金额</th>
+                    <th></th>
+                    <th style="color: gold">{$all_pay_order}￥</th>
+                </tr>
+                <tr>
+                    <th><hr></th>
+                    <th><hr></th>
+                    <th><hr></th>
+                </tr>
+                <tr style="color: white">
+                    <th>已支付订单</th>
+                    <th>总订单</th>
+                    <th>成功率</th>
+                </tr>
+                <tr style="color: gold">
+                    <th>{$pay_count}笔</th>
+                    <th>{$o_count}笔</th>
+                    <th>{$all_suc}%</th>
+                </tr>
+            </table>
+        </div>
+        <!--月收益详情-->
+        <div id="month">
+            <table width="100%" style="position: absolute;top: 35px;">
+                <tr>
+                    <th style="color: white">本月收款金额</th>
+                    <th></th>
+                    <th style="color: gold">{$month_pay_order}￥</th>
+                </tr>
+                <tr>
+                    <th><hr></th>
+                    <th><hr></th>
+                    <th><hr></th>
+                </tr>
+                <tr style="color: white">
+                    <th>已支付订单</th>
+                    <th>总订单</th>
+                    <th>成功率</th>
+                </tr>
+                <tr style="color: gold">
+                    <th>{$month_pay_count}笔</th>
+                    <th>{$month_o_count}笔</th>
+                    <th>{$month_suc}%</th>
+                </tr>
+            </table>
+        </div>
+        <!--今日收益详情-->
+        <div id="today">
+            <table width="100%" style="position: absolute;top: 35px;">
+                <tr>
+                    <th style="color: white">今日收款金额</th>
+                    <th></th>
+                    <th style="color: gold">{$day_pay_order}￥</th>
+                </tr>
+                <tr>
+                    <th><hr></th>
+                    <th><hr></th>
+                    <th><hr></th>
+                </tr>
+                <tr style="color: white">
+                    <th>已支付订单</th>
+                    <th>总订单</th>
+                    <th>成功率</th>
+                </tr>
+                <tr style="color: gold">
+                    <th>{$day_pay_count}笔</th>
+                    <th>{$day_o_count}笔</th>
+                    <th>{$day_suc}%</th>
+                </tr>
+            </table>
+        </div>
+        <!--昨日收益详情-->
+        <div id="yesterday">
+            <table width="100%" style="position: absolute;top: 35px;">
+                <tr>
+                    <th style="color: white">昨日收款金额</th>
+                    <th></th>
+                    <th style="color: gold">{$yesterday_pay_order}￥</th>
+                </tr>
+                <tr>
+                    <th><hr></th>
+                    <th><hr></th>
+                    <th><hr></th>
+                </tr>
+                <tr style="color: white">
+                    <th>已支付订单</th>
+                    <th>总订单</th>
+                    <th>成功率</th>
+                </tr>
+                <tr style="color: gold">
+                    <th>{$yesterday_pay_count}笔</th>
+                    <th>{$yesterday_o_count}笔</th>
+                    <th>{$yesterday_suc}%</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!--各个商户收益详情-->
+    <div id="merchant">
+        <h5>各商户交易情况</h5>
+        <table>
+            <tr>
+                <th>商户名称</th>
+                <th>交易金额</th>
+                <th>手续费</th>
+                <th>已支付订单</th>
+                <th>总订单量</th>
+            </tr>
+            <tr>
+                <td><ul>
+                {foreach $mts as $mt}
+                    <li><br>{$mt['mt_name']}</li><hr>
+                {/foreach}
+                </ul></td>
+                <td><ul>
+                    {foreach $mts_money as $mt_money}
+                    <li><br>{$mt_money}￥</li><hr>
+                    {/foreach}
+                </ul></td>
+                <td><ul>
+                    {foreach $mts_ratio as $mt_ratio}
+                    <li><br>{$mt_ratio}￥</li><hr>
+                    {/foreach}
+                </ul></td>
+                <td><ul>
+                    {foreach $mts_pay_order as $mt_pay_order}
+                    <li><br>{$mt_pay_order}</li><hr>
+                    {/foreach}
+                </ul></td>
+                <td><ul>
+                    {foreach $mts_all_order as $mt_all_order}
+                    <li><br>{$mt_all_order}</li><hr>
+                    {/foreach}
+                </ul></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<style>
+    li{
+        list-style-type:none;
+    }
+    #statistics{
+        width: 100%;
+    }
+    #statistics th{
+        width: 25%;
+    }
+    #statistics table{
+        position: absolute;
+        top: 25px;
+        width: 100%;
+    }
+    #center th{
+        width: 33%;
+    }
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    #main_body{
+        text-align: center;
+    }
+    #center div{
+        background: #5eb4b1;
+    }
+    #statistics{
+        position: relative;
+        background: #5eb4b1;
+        left: 35px;
+        top: 35px;
+        height: 100px;
+        width: 1350px;
+        border-radius: 25px;
+    }
+    #center{
+        background: #f7f7f7;
+        position: relative;
+        left: 35px;
+        top: 90px;
+        height: 150px;
+        width: 1350px;
+    }
+    #all{
+        position: absolute;
+        width: 24%;
+        height: 100%;
+        border-radius: 25px;
+    }
+    #month{
+        position: absolute;
+        left: 25%;
+        width: 24%;
+        height: 100%;
+        border-radius: 25px;
+    }
+    #today{
+        position: absolute;
+        left: 50%;
+        width: 24%;
+        height: 100%;
+        border-radius: 25px;
+    }
+    #yesterday{
+        position: absolute;
+        left: 75%;
+        width: 24%;
+        height: 100%;
+        border-radius: 25px;
+    }
+    #merchant table{
+        position: absolute;
+        width: 1350px;
+        left: 30px;
+        top: 420px;
+    }
+    #merchant table th{
+        background: #5eb4b1;
+        width: 20%;
+        color: white;
+    }
+</style><!--#ff623d-->
+{/block}

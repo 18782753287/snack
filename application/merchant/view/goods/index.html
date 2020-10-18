@@ -1,0 +1,213 @@
+{extend name="../common/mt_model"}
+{block name="title"}商品相关{/block}
+{block name="main"}
+<table>
+    <tr>
+        <th>商品id</th>
+        <th>商品名称</th>
+        <th>商品价格</th>
+        <th>库存</th>
+        <th>商品简述</th>
+        <th>商品图示</th>
+        <th>操作</th>
+    </tr>
+    <tr>
+        <form action="/merchant/goods/add_goods" method="post" enctype="multipart/form-data">
+
+            <td>
+                <label for="id" class="sr-only"></label>
+                <input style="color: red;font-weight: bold" type="text" id="id" readonly value="👉在此行添加商品">
+            </td>
+            <td>
+                <label for="goods_name" class="sr-only"></label>
+                <input type="text" id="goods_name" name="goods_name" placeholder="商品名称">
+            </td>
+            <td>
+                <label for="goods_price" class="sr-only"></label>
+                <input type="text" id="goods_price" name="goods_price" placeholder="商品价格">
+            </td>
+            <td>
+                <label for="goods_stocks" class="sr-only"></label>
+                <input type="text" id="goods_stocks" name="goods_stocks" value="0">
+            </td>
+            <td>
+                <label for="goods_describe" class="sr-only"></label>
+                <input type="text" id="goods_describe" name="goods_describe" placeholder="商品简述">
+            </td>
+            <td>
+                <img id="upload" src="__IMG__/goods_default_img.jpg" style="width: 80px; height: 80px; vertical-align: middle;" /><br>
+                <a href="javascript:" class="a-upload">
+                    <input name="g_img" id="g_img" style="position: absolute; top: 0; bottom: 0; left: 0;right: 0; opacity: 0;" type="file" onchange="showImg(this,'upload')"/>
+                    <!-- 自定义按钮效果 -->
+                    <div style="text-align: top">
+                        <span style="font-size: 12px;">点击这里上传文件</span>
+                    </div>
+                </a>
+            </td>
+            <td>
+                <input style="height: 100px" type="submit" class="a-upload" value="添加商品">
+            </td>
+        </form>
+    </tr>
+    <tr>
+        <td><hr></td>
+        <td><hr></td>
+        <td><hr></td>
+        <td><hr></td>
+        <td><hr></td>
+        <td><hr></td>
+    </tr>
+    {foreach $goods as $key => $good}
+    <tr>
+        <form action="/merchant/goods/update_goods" method="post" enctype="multipart/form-data">
+            <td><input value="{$good['id']}" readonly name="g_id"></td>
+            <td><input value="{$good['goods_name']}" name="g_name"></td>
+            <td><input value="{$good['goods_price']}" name="g_price"></td>
+            <td style="color: red"><input value="{$good['goods_stocks']}" name="g_stocks"></td>
+            <td><input value="{$good['goods_describe']}" name="g_describe"></td>
+            <td>
+                <img src="{$good['goods_img']}" id="img{$key}">
+                <br>
+                <a href="javascript:" class="a-upload">
+                    <input name="g_img" id="g_img" style="position: absolute; top: 0; bottom: 0; left: 0;right: 0; opacity: 0;" type="file" onchange='showImg(this,"img{$key}")'/>
+                    <!-- 自定义按钮效果 -->
+                    <div style="text-align: top">
+                        <span style="font-size: 12px;">点击这里上传文件</span>
+                    </div>
+                </a>
+            </td>
+            <td>
+                <input name='update' style="height: 50px" type="submit"
+                       onclick="javascript:if(confirm('确认修改该商品？')==false)return false;" class="a-upload" value="修改">
+                <input name='delete' style="height: 50px" type="submit"
+                       onclick="javascript:if(confirm('确认删除该商品？')==false)return false;" class="a-upload" value="删除">
+            </td>
+        </form>
+    </tr>
+    <tr>
+        <td><hr></td>
+        <td><hr></td>
+        <td><hr></td>
+        <td><hr></td>
+        <td><hr></td>
+        <td><hr></td>
+    </tr>
+    {/foreach}
+    <tr>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+    </tr>
+    <tr>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+    </tr>
+    <tr>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+    </tr>
+    <tr>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+    </tr>
+</table>
+<div style="position: fixed;bottom: 0;left: 50%">
+    <form action="/merchant/goods/index" method="post">
+        <input style="height: 30px" class="a-upload" name="update" type="submit" value="上一页">
+        <input style="width: 10px" class="a-upload" name="num" type="text" readonly value="{$num}">
+        <input style="height: 30px" class="a-upload" name="update" type="submit" value="下一页">
+    </form>
+</div>
+<script type="text/javascript">
+    function showImg(input,id) {
+        var file = input.files[0];
+        var reader = new FileReader();
+
+        // 图片读取成功回调函数
+        reader.onload = function(e) {
+            document.getElementById(id).src=e.target.result
+        };
+        reader.readAsDataURL(file)
+    }
+</script>
+<style>
+    input{
+        height: 100px;
+    }
+    table{
+        position: absolute;
+        top: 25px;
+        left: 95px;
+        width: 1200px;
+    }
+    table th{
+        background: #6FCBC8;
+        width: 15%;
+        color: white;
+    }
+    table input{
+        text-align: center;
+        height: 100px;
+        width: 100%;
+    }
+    .a-upload {
+        padding: 4px 10px;
+        height: 20px;
+        line-height: 20px;
+        position: relative;
+        cursor: pointer;
+        color: #888;
+        background: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        display: inline-block;
+        *display: inline;
+        *zoom: 1
+    }
+    .a-upload  input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        cursor: pointer
+    }
+    .a-upload:hover {
+        color: #444;
+        background: #eee;
+        border-color: #ccc;
+        text-decoration: none
+    }
+    img{
+        height: 80px;
+    }
+    #num{
+        position: fixed;
+        right:30px;
+        bottom: 400px;
+    }
+    #num input{
+        width: 30px;
+        height: 30px;
+        text-align: center;
+    }
+</style>
+
+{/block}

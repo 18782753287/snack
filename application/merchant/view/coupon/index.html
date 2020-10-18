@@ -1,0 +1,128 @@
+{extend name="../common/mt_model"}
+{block name="title"}优惠卷详情{/block}
+{block name="main"}
+<style>
+    input{
+        height: 100px;
+    }
+    table{
+        position: absolute;
+        top: 25px;
+        left: 95px;
+        width: 1200px;
+    }
+    table th{
+        background: #6FCBC8;
+        width: 15%;
+        color: white;
+    }
+    table input{
+        text-align: center;
+        height: 100px;
+        width: 100%;
+    }
+    .a-upload {
+        padding: 4px 10px;
+        height: 20px;
+        line-height: 20px;
+        position: relative;
+        cursor: pointer;
+        color: #888;
+        background: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        display: inline-block;
+        *display: inline;
+        *zoom: 1
+    }
+    .a-upload  input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        cursor: pointer
+    }
+    .a-upload:hover {
+        color: #444;
+        background: #eee;
+        border-color: #ccc;
+        text-decoration: none
+    }
+    #img{
+        height: 80px;
+    }
+    #num{
+        position: fixed;
+        right:30px;
+        bottom: 400px;
+    }
+    #num input{
+        width: 30px;
+        height: 30px;
+        text-align: center;
+    }
+</style>
+{empty name="coupon"}
+<div style="position:fixed;left: 50%;top: 40%;transform: translate(-50%,-50%)">
+    <h1 style="color: gray">您还未给用户发放过优惠卷，或发放的已全部过期</h1>
+</div>
+{else/}
+<table>
+    <tr>
+        <th></th>
+        <th>用户</th>
+        <th>优惠卷类型</th>
+        <th>优惠卷详情</th>
+        <th>有效期</th>
+        <th>张数</th>
+    </tr>
+    {foreach $coupon as $c}
+    <tr>
+        <td><img src="{$c['mb_head_img']}" width="120px" style="border-radius: 100px"></td>
+        <td>{$c['mb_name']}</td>
+        <td>
+            {eq name=":$c['type']" value="0"}
+            <!--立减卷-->
+            立减卷
+            {else/}
+            <!--满减卷-->
+            满减卷
+            {/eq}
+        </td>
+        <td>
+            {eq name=":$c['type']" value="0"}
+            <!--立减卷-->
+            立减：<p style="display: inline;color: red">{$c['sub']}￥</p>
+            {else/}
+            <!--满减卷-->
+            满：<p style="display: inline;color: red">{$c['full']}￥</p>
+            减：<p style="display: inline;color: red">{$c['sub']}￥</p>
+            {/eq}
+        </td>
+        <td>
+            {eq name=":$c['time']" value="0"}
+            无期限
+            {else/}
+            {$c['time']|date="Y-m-d"}
+            {/eq}
+        </td>
+        <td>{$c['num']}</td>
+    </tr>
+    <tr>
+        <th><hr></th>
+        <th><hr></th>
+        <th><hr></th>
+        <th><hr></th>
+        <th><hr></th>
+        <th><hr></th>
+    </tr>
+    {/foreach}
+</table>
+{/empty}
+
+
+
+{/block}

@@ -1,0 +1,323 @@
+{extend name="../common/model"}
+{block name="title"}零食网{/block}
+{block name="main"}
+<div style="width: 14%;height: 30%;float:left;">
+    <br><br>
+    <ul style="color: gray">
+        <li><a href="/index/merchant?merchant=三只松鼠" target="_blank">麻辣味蜀香牛肉</a></li><br>
+        <li><a href="/index/merchant?merchant=三只松鼠" target="_blank">手撕面包 </a></li><br>
+        <li><a href="/index/merchant?merchant=三只松鼠" target="_blank">每日芒果干</a></li><br>
+        <li><a href="/index/merchant?merchant=乐事" target="_blank">无限薯片</a></li><br>
+        <li><a href="/index/merchant?merchant=乐事" target="_blank">大波浪薯片</a></li><br>
+        <li><a href="/index/merchant?merchant=乐事" target="_blank">休闲零食</a></li><br>
+        <li><a href="/index/merchant?merchant=旺旺" target="_blank">仙贝</a></li><br>
+        <li><a href="/index/merchant?merchant=旺旺" target="_blank">旺仔牛奶</a></li><br>
+        <li><a href="/index/merchant?merchant=旺旺" target="_blank">雪糕冰淇淋</a></li><br>
+    </ul>
+</div>
+<div style="width: 53.63%;height: 30%;float:left;border:10px solid antiquewhite">
+    <a href="/index/merchant?merchant=乐事" target="_blank">
+        <img id="leshi" src="__IMG__/mt_img/da0dda40ac8d7a7d.jpg.webp">
+    </a>
+    <a href="/index/merchant?merchant=三只松鼠" target="_blank">
+        <img id="songshu" style="display: none" src="__IMG__/mt_img/e6420864c7108db4.jpg.webp">
+    </a>
+    <a href="/index/merchant?merchant=旺旺" target="_blank">
+        <img id="wangwang" style="display: none" src="__IMG__/mt_img/8d048c49fcae7a8a.jpg.webp">
+    </a>
+</div>
+<div style="width: 14%;height: 30%;float:left;border:10px solid antiquewhite">
+    <div id="img_div1" style="width: 100%">
+        <a href="/index/shop?goods_id={$img['0']['id']}" target="_blank">
+            <img src="{$img['0']['goods_img']}" id="img1"></a>
+        <a href="/index/shop?goods_id={$img['1']['id']}" target="_blank">
+            <img src="{$img['1']['goods_img']}" id="img2"></a>
+        <a href="/index/shop?goods_id={$img['2']['id']}" target="_blank">
+            <img src="{$img['2']['goods_img']}" id="img3"></a>
+    </div>
+
+    <div id="img_div2" style="width: 100%;display: none">
+        <a href="/index/shop?goods_id={$img['3']['id']}" target="_blank">
+            <img src="{$img['3']['goods_img']}" id="img4"></a>
+        <a href="/index/shop?goods_id={$img['4']['id']}" target="_blank">
+            <img src="{$img['4']['goods_img']}" id="img5"></a>
+        <a href="/index/shop?goods_id={$img['5']['id']}" target="_blank">
+            <img src="{$img['5']['goods_img']}" id="img6"></a>
+    </div>
+    <div id="img_div3" style="width: 100%;display: none">
+        <a href="/index/shop?goods_id={$img['6']['id']}" target="_blank">
+            <img src="{$img['6']['goods_img']}" id="img7"></a>
+        <a href="/index/shop?goods_id={$img['7']['id']}" target="_blank">
+            <img src="{$img['7']['goods_img']}" id="img8"></a>
+        <a href="/index/shop?goods_id={$img['8']['id']}" target="_blank">
+            <img src="{$img['8']['goods_img']}" id="img9"></a>
+    </div>
+</div>
+<div style="width: 10%;height: 30%;transform: translate(20%,0)">
+    <br><br><br>
+    {eq name="mb_name" value=""}
+        <div>
+            <a href="#" onclick="alert('请先完成登陆！')">
+                <h3 style="color: gold">{$e_count}</h3>评价次数
+            </a>
+        </div>
+        <br><br><br><br>
+        <div>
+            <a href="#" onclick="alert('请先完成登陆！')">
+                <h3 style="color: gold">{$o_count}</h3>订单数量
+            </a>
+        </div>
+        <br><br><br><br>
+        <div>
+    {else/}
+        <div>
+            <a href="/index/index/my_info" target="_blank">
+                <h3 style="color: gold">{$e_count}</h3>评价次数
+            </a>
+        </div>
+        <br><br><br><br>
+        <div>
+            <a href="/index/index/my_info" target="_blank">
+                <h3 style="color: gold">{$o_count}</h3>订单数量
+            </a>
+        </div>
+        <br><br><br><br>
+        <div>
+    {/eq}
+        <a href="/index/notice" target="_blank">
+            <img src="__IMG__/snake.jpg" width="50%" style="border-radius: 100px">
+            <br>网站通知
+        </a>
+    </div>
+</div>
+<div style="width: 100%;height: 30px;background: antiquewhite"></div>
+<div id="goods"><br>
+    {foreach $goods as $good}
+        <div id="good">
+            <a href="/index/shop?goods_id={$good['id']}" target="_blank">
+                <img src="{$good['goods_img']}" id="goods_img"><br><br>
+                <pre>{$good['goods_describe']}</pre><br>
+            </a>
+            <a href="/index/merchant?merchant={$good['goods_merchant']}" target="_blank">
+                <p id="ppp">
+                    {$good['goods_merchant']}
+                </p>
+            </a>
+            <br><p id="price">{$good['goods_price']}￥</p><br>
+        </div>
+    {/foreach}
+</div>
+<div>
+    <br><br>
+    <form action="/" method="post">
+        <input style="height: 30px" class="a-upload" name="low" type="submit" value="上一页">
+        <input style="width: 10px" class="a-upload" name="num" type="text" readonly value="{$num}">
+        <input style="height: 30px" class="a-upload" name="up" type="submit" value="下一页">
+    </form>
+    <br><br><br>
+</div>
+<style>
+    #leshi{
+        width: 100%;
+        height: 100%;
+    }
+    #songshu{
+        width: 100%;
+        height: 100%;
+    }
+    #wangwang{
+        width: 100%;
+        height: 100%;
+    }
+    #img1{
+        width: 100%;
+        height: 100%;
+    }
+    #img2{
+        width: 100%;
+        height: 100%;
+    }
+    #img3{
+        width: 100%;
+        height: 100%;
+    }
+    #img4{
+        width: 100%;
+        height: 100%;
+    }
+    #img5{
+        width: 100%;
+        height: 100%;
+    }
+    #img6{
+        width: 100%;
+        height: 100%;
+    }
+    #img7{
+        width: 100%;
+        height: 100%;
+    }
+    #img8{
+        width: 100%;
+        height: 100%;
+    }
+    #img9{
+        width: 100%;
+        height: 100%;
+        opacity: 0.8;
+    }
+    #img1:hover{
+        opacity: 0.7;
+    }
+    #img2:hover{
+        opacity: 0.7;
+    }
+    #img3:hover{
+        opacity: 0.7;
+    }
+    #img4:hover{
+        opacity: 0.7;
+    }
+    #img5:hover{
+        opacity: 0.7;
+    }
+    #img6:hover{
+        opacity: 0.7;
+    }
+    #img7:hover{
+        opacity: 0.7;
+    }
+    #img8:hover{
+        opacity: 0.7;
+    }
+    #img9:hover{
+        opacity: 0.7;
+    }
+    a{
+        color: gray;
+        text-decoration: none;
+    }
+    a:hover{
+        color: #FF623D;
+    }
+    #ppp{
+        color: gray;
+        font-size: 14px
+    }
+    #ppp:hover{
+        color: #FF623D;
+    }
+    #goods{
+        text-align: center;
+        width: 100%;
+        left: 0;
+        transform: translate(6.5%,0);
+    }
+    #good{
+        border: 2px solid #ccc;
+        width: 17%;
+        float:left;
+    }
+    #goods div:hover{
+        border: 2px solid #FF623D;
+    }
+    #goods div a:hover{
+        opacity: 0.8;
+    }
+    #goods div img{
+        width: 100%;
+    }
+    #goods div pre{
+        height: 16px;
+        width: 100%;
+        color: gray;
+        font-size: 15px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        display:-webkit-box;
+
+    }
+    #goods div pre:hover{
+        color: #FF623D;
+    }
+    #price{
+        color: gold;
+        font-size: 24px;
+    }
+    .a-upload {
+        padding: 4px 10px;
+        height: 20px;
+        line-height: 20px;
+        position: relative;
+        cursor: pointer;
+        color: #888;
+        background: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        display: inline-block;
+        *display: inline;
+        *zoom: 1
+    }
+    .a-upload  input {
+        position: absolute;
+        font-size: 100px;
+        text-align: center;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        cursor: pointer
+    }
+    .a-upload:hover {
+        color: #444;
+        background: #eee;
+        border-color: #ccc;
+        text-decoration: none
+    }
+</style>
+<script>
+    var leshi = document.getElementById("leshi");
+    var songshu = document.getElementById("songshu");
+    var wangwang = document.getElementById("wangwang");
+    var img_div1 = document.getElementById('img_div1');
+    var img_div2 = document.getElementById('img_div2');
+    var img_div3 = document.getElementById('img_div3');
+    setInterval(play_leshi,2000);
+    setInterval(play_songshu,4000);
+    setInterval(play_wangwang,6000);
+    setInterval(play1,3000);
+    setInterval(play2,6000);
+    setInterval(play3,9000);
+    function play_leshi(){
+        leshi.style.display = '';
+        songshu.style.display = 'none';
+        wangwang.style.display = 'none';
+    }
+    function play_wangwang(){
+        leshi.style.display = 'none';
+        songshu.style.display = 'none';
+        wangwang.style.display = '';
+    }
+    function play_songshu(){
+        leshi.style.display = 'none';
+        songshu.style.display = '';
+        wangwang.style.display = 'none';
+    }
+    function play1(){
+        img_div1.style.display = '';
+        img_div2.style.display = 'none';
+        img_div3.style.display = 'none';
+    }
+    function play2(){
+        img_div1.style.display = 'none';
+        img_div2.style.display = '';
+        img_div3.style.display = 'none';
+    }
+    function play3(){
+        img_div1.style.display = 'none';
+        img_div2.style.display = 'none';
+        img_div3.style.display = '';
+    }
+</script>
+{/block}

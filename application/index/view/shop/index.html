@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$good['goods_name']}</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    .mbox {
+        position: relative;
+        width: 30%;
+        float: left;
+        z-index:999;
+        background: url("{$good['goods_img']}") no-repeat;
+        background-size: 100% 100%;
+        border: 1px solid gray;
+    }
+
+    .mask {
+        display: none;
+        position: absolute;
+        height: 100px;
+        width: 100px;
+        background-color: orange;
+        opacity: .4;
+        cursor: move;
+    }
+
+    .xbox {
+        display: none;
+        position: absolute;
+        width: 150%;
+        height: 150%;
+        left: 320px;
+        overflow: hidden;
+    }
+
+    .ximg {
+        position: absolute;
+    }
+    #div_body{
+        width: 70%;
+        background: white;
+        margin: auto;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 90px;
+        height: 375%;
+    }
+    p{
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+    }
+    a{
+        text-decoration: none;
+    }
+    pre{
+        height: 16px;
+        width: 100%;
+        color: gray;
+        font-size: 15px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        display:-webkit-box;
+    }
+    #goods_name{
+        color: gray;
+    }
+    #goods_price{
+        color: gold;
+    }
+    #goods_name:hover{
+        color: red;
+    }
+    #goods_price:hover{
+        color: red;
+    }
+    #good{
+        border: 2px solid #ccc;
+        width: 22%;
+        float:left;
+    }
+    #good:hover{
+        border: 2px solid #FF623D;
+    }
+    a{
+        color: gray;
+        text-decoration: none;
+    }
+    a:hover{
+        color: #FF623D;
+    }
+    #ppp{
+        color: gray;
+        font-size: 14px
+    }
+    #ppp:hover{
+        color: #FF623D;
+    }
+    .price{
+        color: gold;
+        font-size: 24px;
+    }
+    .a-upload {
+        padding: 4px 10px;
+        height: 20px;
+        line-height: 20px;
+        position: relative;
+        cursor: pointer;
+        color: #888;
+        background: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        display: inline-block;
+        *display: inline;
+        *zoom: 1
+    }
+    .a-upload  input {
+        position: absolute;
+        font-size: 100px;
+        text-align: center;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        cursor: pointer
+    }
+    .a-upload:hover {
+        color: #444;
+        background: #eee;
+        border-color: #ccc;
+        text-decoration: none
+    }
+    li{
+        list-style:none
+    }
+</style>
+<body background="__BG_IMG__" style="background-size: 100%">
+{include file="../common/top"}
+<div id="div_body">
+    <!--图片放大功能-->
+    <div class="mbox">
+        <div class="xbox">
+            <img style="z-index:999" src="{$good['goods_img']}" class="ximg" width="150%">
+        </div>
+        <div class="mask"></div>
+    </div>
+    <!--商户商品推荐(看了又看)-->
+    <div style="position: absolute;width:10%;left: 85%;top: 40px;" align="center">
+        <b style="color: gray">看了又看</b><br><br>
+        {foreach $mt_goods as $mt_good}
+        <a href="/index/shop?goods_id={$mt_good['id']}" target="_blank">
+            <img src="{$mt_good['goods_img']}" width="100%" style="border: 1px solid gray">
+            <p id="goods_name">{$mt_good['goods_name']}</p>
+            <p id="goods_price">{$mt_good['goods_price']}￥</p>
+        </a>
+        {/foreach}
+    </div>
+    <!--评价-->
+    <div id="div_evaluate" style="border-radius:10px;position: absolute;background: #EAEAEA;width:79%;left:20px;height:250px;">
+        <b style="position:absolute;margin:auto;left:2%;top: 50%;transform: translate(0,-50%)">有<br>关<br>商<br>品<br>的<br>评<br>价</b>
+        <br>
+        <div style="width:90%;position:absolute;float: left;left: 7%;">
+            {eq name="e_count" value="0"}
+            <br><br><br><br><br>
+            <h3>　　　　　　　　这里还有没有人评论，块来抢占沙发吧</h3>
+            {else/}
+            <div style="width:100%;height:210px;overflow:auto;">
+                {foreach $evaluate as $e}
+                <ul style="width: 95%">
+                    <li style="float: left">
+                        <img src="{$e['mb_head_img']}" width="40px" style="border-radius: 100px">
+                    </li>
+                    <li style="float: left;font-size: 15px">
+                        用户：<b>{$e['e_mb_name']}</b>
+                    </li>
+                    <br>
+                    <li style="float: left;font-size: 12px">
+                        {$e['create_time']}
+                    </li>
+                    <br>
+                    <li style="text-align:left;float: left">{$e['e_content']}</li>
+                </ul><br><br><br><br>
+                {/foreach}
+            </div>
+            {/eq}
+        </div>
+        <form action="/index/shop/evaluate" method="post" style="position:absolute;left:33%;bottom: 10px">
+            <input name="e_content" class="a-upload">
+            <input hidden value="{$good['id']}" name="e_goods_id">
+            <input hidden value="{$good['goods_merchant']}" name="mt_name">
+            <input style="height: 30px" class="a-upload" type="submit" value="发表评价">
+        </form>
+    </div>
+    <!--购买页面-->
+    <div style="position:absolute;top: 40px;left: 33%;width: 47%" align="left">
+        <pre><b>{$good['goods_describe']}</b></pre>
+        <br>
+        <div style="
+                position:absolute;
+                font-size: 15px;
+                width: 100%;
+                height: 35px;
+                border-radius: 10px;
+                background: hotpink;">
+            <p style="position:relative;color: white;left: 20px;top: 6px;display: inline">⏰零食网秒杀</p>
+            <p style="position:relative;color: yellow;left: 275px;top: 6px;display: inline">库存：{$good['goods_stocks']}</p>
+            <div style="position:relative;color:gray;top: 11px;width: 100%;height: 60px;background: #eaeaea">
+                <div style="position:absolute;top: 20px;left: 20px">
+                    <div style="float: left">
+                        秒杀价：
+                        <b style="color: red;font-size: 24px">{$good['goods_price']}￥</b>
+                    </div>
+                    <div style="position: absolute;right: -270px">
+                        累计评价：
+                        <b style="color: red;font-size: 24px">{$e_count}</b>
+                    </div>
+                </div>
+            </div>
+            <div style="position: absolute;top: 100px;width: 100%">
+                <form action="/index/purchase/index" method="post">
+                    <br>
+                    <input name="flag"
+                           style="height: 30px;width: 32%" class="a-upload" type="submit" value="进入店铺">
+                    <input class="a-upload" style="width: 14%" readonly value="商品件数：">
+                    <input name="goods_num" min="1"
+                           style="height: 21px;width: 8%" class="a-upload" type="number" value="1">
+                    <input name="flag" onclick="if (confirm('即将跳转至收银台')==false)return false;"
+                           style="float:right;color:black;background: gold;height: 30px;width: 32%" class="a-upload" type="submit" value="￥购买">
+                    <br><br>
+                    <input name="flag" onclick="if (confirm('关注该店铺？')==false)return false;"
+                           style="height: 30px;width: 32%" class="a-upload" type="submit" value="关注店铺">
+                    <input name="flag" onclick="if (confirm('收藏此商品？')==false)return false;"
+                           style="height: 30px;width: 32%" class="a-upload" type="submit" value="收藏商品">
+                    <input name="flag" onclick="if (confirm('将此商品加入到购物车？')==false)return false;"
+                           style="float:right;color:white;background: red;height: 30px;width: 32%" class="a-upload" type="submit" value="+加入购物车">
+                    <input hidden name="goods_id" value="{$good['id']}">
+                    <input hidden name="mt_id" value="{$mt_id}">
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--猜你喜欢-->
+    <div id="cai" align="center" style="position: absolute;left: 50%;transform: translate(-50%,0);">
+        <br>
+        <pre><b>: : : : : : : : : : : : 猜你喜欢 : : : : : : : : : : : :</b></pre>
+    </div>
+    <!--商品推荐-->
+    <div id="goods"
+         style="position:absolute;width: 100%;left: 5%" align="center">
+        {foreach $goods as $cai}
+        <div id="good">
+            <a href="/index/shop?goods_id={$cai['id']}" target="_blank">
+                <img src="{$cai['goods_img']}" width="100%"><br><br>
+                <pre class="describe">{$cai['goods_describe']}</pre><br>
+            </a>
+            <a href="/index/merchant?merchant={$cai['goods_merchant']}" target="_blank">
+                <p id="ppp">
+                    {$cai['goods_merchant']}
+                </p>
+            </a>
+            <br><p class="price">{$cai['goods_price']}￥</p><br>
+        </div>
+        {/foreach}
+    </div>
+</div>
+<script>
+    //mbox指小盒子，xbox指放大后所显示的大盒子，ximg指大盒子中的图片，mask指橙色的遮罩层
+    var div_body = document.getElementById('div_body');
+    var div_evaluate = document.getElementById('div_evaluate');
+    var goods = document.getElementById('goods');
+    var cai = document.getElementById('cai');
+    var mbox = document.querySelector('.mbox');
+    var xbox = document.querySelector('.xbox');
+    var ximg = document.querySelector('.ximg');
+    var mask = document.querySelector('.mask');
+    mbox.style.height = mbox.offsetWidth+'px';
+    div_evaluate.style.top = mbox.offsetWidth+20+'px';
+    cai.style.top = mbox.offsetWidth+290+'px';
+    goods.style.top = mbox.offsetWidth+370+'px';
+    //给mbox添加鼠标经过事件
+    mbox.addEventListener('mouseover', function () {
+        //当鼠标经过mbox时，mask和xbox显示出来
+        mask.style.display = 'block';
+        xbox.style.display = 'block';
+        //给mbox添加鼠标移动事件
+        mbox.addEventListener('mousemove', move);
+        function move(e) {
+            //计算鼠标在mbox内的坐标。为了让鼠标居于mask中心，再各减去mask的宽高一半
+            var left = e.pageX - mbox.offsetLeft - mask.offsetWidth / 2 - div_body.offsetLeft;
+            var top = e.pageY - mbox.offsetTop - mask.offsetHeight / 2 - 90;
+            //计算显示比率，ximg最大移动距离/mask最大移动距离
+            var ratio = (ximg.offsetWidth - xbox.offsetWidth) / (mbox.offsetWidth - mask.offsetWidth);
+            //把left、top限制在mbox的范围中
+            if (left <= 0) {
+                left = 0;
+            } else if (left >= mbox.offsetWidth - mask.offsetWidth) {
+                left = mbox.offsetWidth - mask.offsetWidth;
+            }
+            if (top <= 0) {
+                top = 0;
+            } else if (top >= mbox.offsetHeight - mask.offsetHeight) {
+                top = mbox.offsetHeight - mask.offsetHeight;
+            }
+            mask.style.left = left + 'px';
+            mask.style.top = top + 'px';
+            //mask的移动方向与ximg的移动方向刚刚好相反，试一下把 '-' 去掉即可明白。
+            //且ximg移动距离为mask的ratio倍。
+            ximg.style.left = '-' + left * ratio + 'px';
+            ximg.style.top = '-' + top * ratio + 'px';
+        }
+    });
+    //给mbox添加鼠标离开事件
+    mbox.addEventListener('mouseout', function () {
+        mask.style.display = 'none';
+        xbox.style.display = 'none';
+    });
+</script>
+</body>
+</html>

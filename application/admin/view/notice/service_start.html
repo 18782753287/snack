@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>通知异步处理</title>
+</head>
+<body>
+<script type="text/javascript">
+    var start = window.setInterval("loadXMLDoc()",500);
+    function loadXMLDoc() {
+        var xmlhttp;
+        if (window.XMLHttpRequest) {
+            xmlhttp=new XMLHttpRequest();
+        } else {
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function() {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                if (xmlhttp.responseText==1){}
+            }
+        };
+        xmlhttp.open("GET","/admin/notice/service"+"&t=" + Math.random(),true);
+        xmlhttp.send();
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+{extend name="../common/mt_model"}
+{block name="title"}会员相关{/block}
+{block name="main"}
+<div id="center">
+    <table width="1350px">
+        <tr>
+            <th style="background: #5eb4b1;color: white">会员头像</th>
+            <th style="background: #5eb4b1;color: white">会员ID</th>
+            <th style="background: #5eb4b1;color: white">会员名称</th>
+            <th style="background: #5eb4b1;color: white">会员邮箱</th>
+            <th style="background: #5eb4b1;color: white">创建时间</th>
+        </tr>
+        {foreach $mbs as $mb}
+        <tr>
+            <th><img src="{$mb['mb_head_img']}" width="40%"></th>
+            <th>{$mb['id']}</th>
+            <th>{$mb['mb_name']}</th>
+            <th>{$mb['mb_email']}</th>
+            <th>{$mb['mb_create_time']}</th>
+        </tr>
+        <tr>
+            <th><hr></th>
+            <th><hr></th>
+            <th><hr></th>
+            <th><hr></th>
+            <th><hr></th>
+        </tr>
+        {/foreach}
+    </table>
+</div>
+<style>
+    #center{
+        background: #f7f7f7;
+        position: relative;
+        left: 35px;
+        top: 30px;
+        height: 150px;
+        width: 1350px;
+    }
+    #center th{
+        width: 17%;
+    }
+    img{
+        border-radius: 100px;
+    }
+</style>
+{/block}

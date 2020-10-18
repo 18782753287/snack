@@ -1,0 +1,186 @@
+{extend name="../common/mt_model"}
+{block name="title"}收款相关{/block}
+{block name="main"}
+<div id="center">
+    <table width="1350px">
+        <tr>
+            <th style="background: #5eb4b1;color: white">支付方式</th>
+            <th style="background: #5eb4b1;color: white">收款次数</th>
+            <th style="background: #5eb4b1;color: white">累计收款</th>
+            <th style="background: #5eb4b1;color: white">操作</th>
+        </tr>
+        <tr>
+            <th><img src="/static/payment/wx.jpg" width="30%"></th>
+            <th>{$wx_count}</th>
+            <th>{$wx_pay}￥</th>
+            <th>
+                <input type="submit" value="查看详细记录" style="height: 30px"
+                       class="a-upload" onclick="show_wechat()">
+            </th>
+        </tr>
+        <tr>
+            <th><hr></th>
+            <th><hr></th>
+            <th><hr></th>
+            <th><hr></th>
+        </tr>
+        <tr>
+            <th><img src="/static/payment/ali.jpg" width="30%"></th>
+            <th>{$ali_count}</th>
+            <th>{$ali_pay}￥</th>
+            <th>
+                <input type="submit" value="查看详细记录" style="height: 30px"
+                       class="a-upload" onclick="show_ali()">
+            </th>
+        </tr>
+        <tr>
+            <th><hr></th>
+            <th><hr></th>
+            <th><hr></th>
+            <th><hr></th>
+        </tr>
+    </table>
+</div>
+<div id="wechat" style="display: none;">
+    <h3 style="color: gray">微信收款明细</h3>
+    <input type="submit" value="< 返回" class="a-upload" onclick="show_center()"
+           style="height: 30px;float: right;width: 125px;background: gold;color: black">
+    <table width="1350px">
+        <tr>
+            <th style="background: #5eb4b1;color: white">订单编号</th>
+            <th style="background: #5eb4b1;color: white">支付时间</th>
+            <th style="background: #5eb4b1;color: white">店铺名称</th>
+            <th style="background: #5eb4b1;color: white">收款金额</th>
+        </tr>
+        {foreach $wechat as $w}
+        <tr>
+            <th>{$w['order_num']}</th>
+            <th>{$w['pay_time']}</th>
+            <th>{$w['order_mt']}</th>
+            <th>{$w['order_price']}￥</th>
+        </tr>
+        <tr>
+            <th><hr></th>
+            <th><hr></th>
+            <th><hr></th>
+            <th><hr></th>
+        </tr>
+        {/foreach}
+    </table>
+</div>
+<div id="ali" style="display: none;">
+    <h3 style="color: gray">支付宝收款明细</h3>
+    <input type="submit" value="< 返回" class="a-upload" onclick="show_center()"
+           style="height: 30px;float: right;width: 125px;background: gold;color: black">
+    <table width="1350px">
+        <tr>
+            <th style="background: #5eb4b1;color: white">订单编号</th>
+            <th style="background: #5eb4b1;color: white">支付时间</th>
+            <th style="background: #5eb4b1;color: white">店铺名称</th>
+            <th style="background: #5eb4b1;color: white">收款金额</th>
+        </tr>
+        {foreach $ali as $a}
+        <tr>
+            <th>{$a['order_num']}</th>
+            <th>{$a['pay_time']}</th>
+            <th>{$a['order_mt']}</th>
+            <th>{$a['order_price']}￥</th>
+        </tr>
+        <tr>
+            <th><hr></th>
+            <th><hr></th>
+            <th><hr></th>
+            <th><hr></th>
+        </tr>
+        {/foreach}
+    </table>
+</div>
+<script>
+    var center = document.getElementById('center');
+    var wechat = document.getElementById('wechat');
+    var ali = document.getElementById('ali');
+    function show_wechat() {
+        center.style.display = 'none';
+        wechat.style.display = '';
+        ali.style.display = 'none';
+    }
+    function show_ali() {
+        center.style.display = 'none';
+        wechat.style.display = 'none';
+        ali.style.display = '';
+    }
+    function show_center() {
+        center.style.display = '';
+        wechat.style.display = 'none';
+        ali.style.display = 'none';
+    }
+</script>
+<style>
+    #center{
+        background: #f7f7f7;
+        position: relative;
+        left: 35px;
+        top: 30px;
+        height: 150px;
+        width: 1350px;
+    }
+    #center th{
+        width: 17%;
+    }
+    #wechat{
+        background: #f7f7f7;
+        position: relative;
+        left: 35px;
+        top: 30px;
+        height: 150px;
+        width: 1350px;
+    }
+    #wechat th{
+        width: 17%;
+    }
+    #ali{
+        background: #f7f7f7;
+        position: relative;
+        left: 35px;
+        top: 30px;
+        height: 150px;
+        width: 1350px;
+    }
+    #ali th{
+        width: 17%;
+    }
+    img{
+        border-radius: 100px;
+    }
+    .a-upload {
+        padding: 4px 10px;
+        height: 20px;
+        line-height: 20px;
+        position: relative;
+        cursor: pointer;
+        color: #888;
+        background: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        display: inline-block;
+        *display: inline;
+        *zoom: 1
+    }
+    .a-upload  input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        cursor: pointer
+    }
+    .a-upload:hover {
+        color: #444;
+        background: #eee;
+        border-color: #ccc;
+        text-decoration: none
+    }
+</style>
+{/block}

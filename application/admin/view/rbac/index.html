@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>权限管理</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/admin_model.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/input.css">
+    <script src="__JS__/jQuery.js" type="text/javascript" charset="UTF-8"></script>
+    <style>
+        div{
+            overflow: auto;
+        }
+        pre{
+            font-size: 18px;
+            text-align: left;
+        }
+        table{
+            position: absolute;
+            width: 1100px;
+            left: 25px;
+            top: 30px;
+            text-align: center;
+        }
+        th{
+            width: 25%;
+            height: 30px;
+        }
+        td{
+            border: 1px solid gray;
+        }
+        body{
+            background: white;
+            opacity: 1;
+        }
+        #dark{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: black;
+            z-index: 666;
+            opacity: 0.3;
+            display: none;
+        }
+        #roleSet{
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            opacity: 1;
+            display: none;
+            z-index: 999;
+            width: 80%;
+            height: 80%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            background: white;
+            border-radius: 20px;
+            text-align: left;
+        }
+        #adminSet{
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            opacity: 1;
+            display: none;
+            z-index: 999;
+            width: 80%;
+            height: 80%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            background: white;
+            border-radius: 20px;
+            text-align: left;
+        }
+        #accessSet{
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            opacity: 1;
+            display: none;
+            z-index: 999;
+            width: 80%;
+            height: 80%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            background: white;
+            border-radius: 20px;
+            text-align: left;
+        }
+        #select{
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+        }
+        #select input{
+            width: 200px;
+            height: 50px;
+            color: white;
+            background: #02aaf1;
+        }
+        a:hover{
+            color: #02aaf1;
+        }
+        h2{
+            color: #02aaf1;
+            display: inline;
+        }
+        .addAccessFrom1{
+            width: 400px;
+            height: 50px;
+        }
+        .addAccessFrom2{
+            width: 400px;
+            height: 300px;
+            text-align: unset;
+        }
+    </style>
+    <script>
+        //角色管理管理页面
+        function showRole(){
+            var set = document.getElementById("roleSet");
+            var dark = document.getElementById("dark");
+            set.style.display = 'block';
+            dark.style.display = 'block';
+        }
+        function offRole(){
+            var set = document.getElementById("roleSet");
+            var dark = document.getElementById("dark");
+            set.style.display = 'none';
+            dark.style.display = 'none';
+        }
+        function showAddRole(){
+            var roleList = document.getElementById("roleList");
+            var addRole = document.getElementById("addRole");
+            roleList.style.display = 'none';
+            addRole.style.display = 'block';
+        }
+        function offAddRole(){
+            var roleList = document.getElementById("roleList");
+            var addRole = document.getElementById("addRole");
+            roleList.style.display = 'block';
+            addRole.style.display = 'none';
+        }
+        function showUpdateRole(role_name){
+            var roleList = document.getElementById("roleList");
+            var updateRole = document.getElementById("updateRole");
+            var updateRoleInput = document.getElementById("updateRoleInput");
+            updateRoleInput.value = role_name;
+            roleList.style.display = 'none';
+            updateRole.style.display = 'block';
+        }
+        function offUpdateRole(){
+            var roleList = document.getElementById("roleList");
+            var updateRole = document.getElementById("updateRole");
+            roleList.style.display = 'block';
+            updateRole.style.display = 'none';
+        }
+
+        //用户管理管理页面
+        function showAdmin(){
+            var set = document.getElementById("adminSet");
+            var dark = document.getElementById("dark");
+            set.style.display = 'block';
+            dark.style.display = 'block';
+        }
+        function offAdmin(){
+            var set = document.getElementById("adminSet");
+            var dark = document.getElementById("dark");
+            set.style.display = 'none';
+            dark.style.display = 'none';
+        }
+        function showUpdateAdminRole(role_name,admin_id){
+            var adminList = document.getElementById("adminList");
+            var updateAdmin = document.getElementById("updateAdmin");
+            var admin = document.getElementById("admin_id");
+            admin.value = admin_id;
+            var radio = document.getElementsByName("radio");
+            adminList.style.display = 'none';
+            updateAdmin.style.display = 'block';
+            //用户原来的角色默认勾中
+            for (var i=0;i<radio.length;i++){
+                if (radio[i].value==role_name){
+                    radio[i].checked=true;
+                }
+            }
+        }
+        function offUpdateAdminRole(){
+            var adminList = document.getElementById("adminList");
+            var updateAdmin = document.getElementById("updateAdmin");
+            adminList.style.display = 'block';
+            updateAdmin.style.display = 'none';
+        }
+
+        //权限管理页面
+        function showAccess(){
+            var set = document.getElementById("accessSet");
+            var dark = document.getElementById("dark");
+            var accessList = document.getElementById("accessList");
+            var updateAccess = document.getElementById("updateAccess");
+            set.style.display = 'block';
+            dark.style.display = 'block';
+            updateAccess.style.display = 'none';
+            accessList.style.display = 'block';
+        }
+        function offAccess(){
+            var set = document.getElementById("accessSet");
+            var dark = document.getElementById("dark");
+            set.style.display = 'none';
+            dark.style.display = 'none';
+        }
+        function showUpdateAccess(role_id,role_name){
+            var updateAccessCheckbox = document.getElementsByClassName('updateAccessCheckbox');
+            var roleName = document.getElementById('role_name');
+            roleName.value = role_name;
+            var roleId = document.getElementById('role_id');
+            roleId.value = role_id;
+            var updateAccessCheckbox = document.getElementsByClassName('updateAccessCheckbox');
+            var accessList = document.getElementById("accessList");
+            var updateAccess = document.getElementById("updateAccess");
+            var roleList = document.getElementById("roleList");
+            var accessSet = document.getElementById("accessSet");
+            var flag = document.getElementById('flag');
+            flag.value = 'role';
+            accessSet.style.display = 'block';
+            roleList.style.display = 'none';
+            accessList.style.display = 'none';
+            updateAccess.style.display = 'block';
+        }
+        function offUpdateAccess(){
+            var accessList = document.getElementById("accessList");
+            var updateAccess = document.getElementById("updateAccess");
+            var accessSet = document.getElementById("accessSet");
+            var roleList = document.getElementById("roleList");
+            var flag = document.getElementById('flag');
+            if (flag.value=='role'){
+                roleList.style.display = 'block';
+                accessSet.style.display = 'none';
+            }
+            if (flag.value=='access'){
+                updateAccess.style.display = 'none';
+                accessList.style.display = 'block';
+            }
+        }
+        function showAddAccess(){
+            var accessList = document.getElementById("accessList");
+            var addAccess = document.getElementById("addAccess");
+            accessList.style.display = 'none';
+            addAccess.style.display = 'block';
+        }
+        function offAddAccess(){
+            var accessList = document.getElementById("accessList");
+            var addAccess = document.getElementById("addAccess");
+            accessList.style.display = 'block';
+            addAccess.style.display = 'none';
+        }
+        function showUpdateAcc(key){
+            var accessList = document.getElementById("accessList");
+            var updateAcc = document.getElementById("updateAcc");
+            var id = document.getElementById('acc_id');
+            var title = document.getElementById('acc_title');
+            var url = document.getElementById('acc_url');
+            var temp_id = document.getElementById('temp_id'+key);
+            var temp_title = document.getElementById('temp_title'+key);
+            var temp_url = document.getElementById('temp_url'+key);
+            id.value = temp_id.value;
+            title.value = temp_title.value;
+            url.value = temp_url.value;
+            accessList.style.display = 'none';
+            updateAcc.style.display = 'block';
+        }
+        function offUpdateAcc(){
+            var accessList = document.getElementById("accessList");
+            var updateAcc = document.getElementById("updateAcc");
+            accessList.style.display = 'block';
+            updateAcc.style.display = 'none';
+        }
+    </script>
+</head>
+<body>
+<div id="main">
+    <div class="div">
+        <div id="select">
+            <input type="submit" value="角色管理" onclick="showRole()" class="input">
+            <br><br><br><br><br>
+            <input type="submit" value="用户管理" onclick="showAdmin()" class="input">
+            <br><br><br><br><br>
+            <input type="submit" value="权限管理" onclick="showAccess()" class="input">
+        </div>
+        <input hidden value="" id="flag" name="flag">
+        <!--角色管理-->
+        <div id="roleSet">
+            <div id="roleList" style="position:absolute;top: 10px;left: 20px;width: 95%;height: 95%">
+                <a href="#" onclick="offRole()"
+                   style="font-size: 30px;position: fixed;top: 10px;right: 20px">✖</a>
+                <h2>角色列表&nbsp;&nbsp;&nbsp;&nbsp;</h2>
+                <a href="#" onclick="showAddRole()">添加角色</a>
+                {empty name=":$roles"}
+                <div style="position: fixed;left: 50%;top: 45%;transform: translate(-50%,-50%)">
+                    <h2>暂无角色列表信息</h2>
+                </div>
+                {else/}
+                <table style="top: 60px;"  cellspacing="0" cellpadding="0">
+                    <tr>
+                        <th style="background: #02aaf1;color: white">角色名称</th>
+                        <th style="background: #02aaf1;color: white">创建时间</th>
+                        <th style="background: #02aaf1;color: white">最近一次修改时间</th>
+                        <th style="background: #02aaf1;color: white">操作</th>
+                    </tr>
+                    {foreach $roles as $key=>$role}
+                    <tr>
+                        <td width="25%" height="50px">{$role['role_name']}</td>
+                        <td width="25%" height="50px">{$role['create_time']}</td>
+                        <td width="25%" height="50px">{$role['update_time']}</td>
+                        <td width="25%" height="50px">
+                            <a href="#" onclick='showUpdateRole("{$role[\"role_name\"]}")'>编辑角色</a>
+                            <a href="/admin/rbac/deleteRole?role_id={$role['id']}"
+                               onclick="if(confirm('确认删除？')==false)return false;">
+                                删除角色
+                            </a>
+                            <a href="/admin/rbac/roleAccessInfo?role_id={$role['id']}">设置权限</a>
+                        </td>
+                    </tr>
+                    {/foreach}
+                </table>
+                {/empty}
+            </div>
+            <!--添加角色-->
+            <div id="addRole" style="position:absolute;top: 10px;left: 20px;display: none;width: 95%;height: 95%">
+                <a href="#" onclick="offAddRole()"
+                   style="font-size: 30px;position: fixed;top: 10px;right: 30px">< back</a>
+                <h2>添加角色</h2>
+                <form action="/admin/rbac/addRole" method="post"
+                      style="position: fixed;left: 50%;top: 50px;transform: translate(-50%,0)">
+                    <input type="text" name="role_name" placeholder="请输入要添加的角色名称" class="input"><br>
+                    {foreach $access as $key=>$acc}
+                    <label><br>
+                        <input type="checkbox" style="text-align: left" name="title{$key}" value="{$acc['title']}">{$acc['title']}
+                    </label><br>
+                    {/foreach}
+                    <input type="submit" style="background: #02aaf1;color: white;height: 30px;float: right"
+                           class="input" value="添加"
+                           onclick="if(confirm('确认添加？')==false)return false;">
+                </form>
+            </div>
+            <!--编辑角色-->
+            <div id="updateRole" style="position:absolute;top: 10px;left: 20px;display: none;width: 95%;height: 95%">
+                <a href="#" onclick="offUpdateRole()"
+                   style="font-size: 30px;position: fixed;top: 10px;right: 30px">< back</a>
+                <h2>编辑角色</h2>
+                <form action="/admin/rbac/updateRole" method="post"
+                      style="position: fixed;left: 50%;top: 40%;transform: translate(-50%,-50%)">
+                    <input id="updateRoleInput" type="text" value="{$role['role_name']}" name="role_name" class="input">
+                    <input name="role_id" value="{$role['id']}" hidden>
+                    <input class="input" value="修改" type="submit"
+                           style="height: 30px;background: #02aaf1;color: white"
+                           onclick="if(confirm('确认修改？')==false)return false;">
+                </form>
+            </div>
+        </div>
+
+        <!--用户管理-->
+        <div id="adminSet" hidden>
+            <div id="adminList" style="position:absolute;top: 10px;left: 20px;width: 95%;height: 95%">
+                <a href="#" onclick="offAdmin()"
+                   style="font-size: 30px;position: fixed;top: 10px;right: 20px">✖</a>
+                <h2>用户列表</h2>
+                {empty name=":$admins"}
+                <div style="position: fixed;left: 50%;top: 45%;transform: translate(-50%,-50%)">
+                    <h2>暂无用户列表信息</h2>
+                </div>
+                {else/}
+                <table style="top: 60px;"  cellspacing="0" cellpadding="0">
+                    <tr>
+                        <th style="background: #02aaf1;color: white">用户名称</th>
+                        <th style="background: #02aaf1;color: white">用户角色</th>
+                        <th style="background: #02aaf1;color: white">创建时间</th>
+                        <th style="background: #02aaf1;color: white">操作</th>
+                    </tr>
+                    {foreach $admins as $admin}
+                    <tr>
+                        <td width="25%" height="50px">{$admin['admin_name']}</td>
+                        <td width="25%" height="50px">
+                            {eq name=":$admin['id']" value="1"}
+                            最高权限管理员
+                            {else/}{$admin['role_name']}{/eq}
+                        </td>
+                        <td width="25%" height="50px">{$admin['create_time']}</td>
+                        <td width="25%" height="50px">
+                            <a href="#" onclick='showUpdateAdminRole("{$admin[\"role_name\"]}","{$admin[\"id\"]}")'>编辑用户</a>
+                            <a href="/admin/rbac/deleteAdmin?admin_id={$admin['id']}"
+                               onclick="if(confirm('确认删除？')==false)return false;">
+                                删除用户
+                            </a>
+                        </td>
+                    </tr>
+                    {/foreach}
+                </table>
+                {/empty}
+            </div>
+            <!--编辑用户-->
+            <div id="updateAdmin" style="position:absolute;top: 10px;left: 20px;display: none;width: 95%;height: 95%">
+                <a href="#" onclick="offUpdateAdminRole()"
+                   style="font-size: 30px;position: fixed;top: 10px;right: 30px">< back</a>
+                <h2>更改用户的角色</h2>
+                <form action="/admin/rbac/updateAdminRole" method="post"
+                      style="position: fixed;left: 50%;top: 50%;transform: translate(-50%,-50%)">
+                    {foreach $roles as $role}
+                    <label>
+                        <input type="radio" name="radio" value="{$role['role_name']}">
+                        <p style="color: #02aaf1;font-size: 24px;display: inline">{$role['role_name']}</p><br><br><br>
+                    </label>
+                    {/foreach}
+                    <input hidden type="text" name="admin_id" id="admin_id">
+                    <input class="input" value="修改" type="submit"
+                           style="height: 30px;background: #02aaf1;color: white"
+                           onclick="if(confirm('确认修改？')==false)return false;">
+                </form>
+            </div>
+        </div>
+
+        <!--权限管理-->
+        <div id="accessSet">
+            <div id="accessList" style="position:absolute;top: 10px;left: 20px;width: 95%;height: 95%">
+                <a href="#" onclick="offAccess()"
+                   style="font-size: 30px;position: fixed;top: 10px;right: 20px">✖</a>
+                <h2>权限管理&nbsp;&nbsp;&nbsp;&nbsp;</h2>
+                <a href="#" onclick="showAddAccess()">添加权限</a>
+                {empty name=":$access"}
+                <div style="position: fixed;left: 50%;top: 45%;transform: translate(-50%,-50%)">
+                    <h2>暂无权限列表信息</h2>
+                </div>
+                {else/}
+                <table style="top: 60px;"  cellspacing="0" cellpadding="0">
+                    <tr>
+                        <th style="background: #02aaf1;color: white">权限标题</th>
+                        <th style="background: #02aaf1;color: white">权限地址</th>
+                        <th style="background: #02aaf1;color: white">是否有效</th>
+                        <th style="background: #02aaf1;color: white">操作</th>
+                    </tr>
+                    {foreach $access as $key=>$acc}
+                    <tr>
+                        <td width="25%" height="50px">{$acc['title']}</td>
+                        <td width="25%" height="50px"><pre>{$acc['url']}</pre></td>
+                        <td width="25%" height="50px">
+                            {eq name=":$acc['status']" value="1"}
+                            是
+                            {/eq}
+                            {eq name=":$acc['status']" value="0"}
+                            否
+                            {/eq}
+                        </td>
+                        <td width="25%" height="50px">
+                            <a href="#" onclick='showUpdateAcc("{$key}")'>
+                                修改权限</a>
+                            <input id="temp_id{$key}" value="{$acc['id']}" hidden>
+                            <input id="temp_title{$key}" value="{$acc['title']}" hidden>
+                            <textarea id="temp_url{$key}" hidden>{$acc['url']}</textarea>
+                            <a href="/admin/rbac/deleteAccess?access_id={$acc['id']}"
+                               onclick="if (confirm('确认删除？')==false)return false; ">删除权限</a>
+                        </td>
+                    </tr>
+                    {/foreach}
+                </table>
+                {/empty}
+            </div>
+            <!--添加权限-->
+            <div id="addAccess" style="position:absolute;top: 10px;left: 20px;display: none;width: 95%;height: 95%">
+                <a href="#" onclick="offAddAccess()"
+                   style="font-size: 30px;position: fixed;top: 10px;right: 30px">< back</a>
+                <h2>添加权限</h2>
+                <form id="addAccessFrom" action="/admin/rbac/addAccess" method="post"
+                      style="position: fixed;left: 50%;top: 50%;transform: translate(-50%,-50%)">
+                    <input class="addAccessFrom1" type="text" name="title" placeholder="输入权限标题" class="input"><br>
+                    <input class="addAccessFrom2" type="text" name="url" placeholder="输入权限可访问的地址" class="input"></input><br>
+                    <input class="input" value="添加" type="submit"
+                           style="height: 30px;background: #02aaf1;color: white"
+                               onclick="if(confirm('确认添加？')==false)return false;">
+                </form>
+            </div>
+            <!--修改权限-->
+            <div id="updateAcc" style="position:absolute;top: 10px;left: 20px;display: none;width: 95%;height: 95%">
+                <a href="#" onclick="offUpdateAcc()"
+                   style="font-size: 30px;position: fixed;top: 10px;right: 30px">< back</a>
+                <h2>修改权限</h2>
+                <form action="/admin/rbac/updateAccess" method="post"
+                      style="position: fixed;left: 50%;top: 50%;transform: translate(-50%,-50%)">
+                    <input id="acc_id" hidden name="acc_id"><br>
+                    <input id="acc_title" name="acc_title" class="addAccessFrom1"><br>
+                    <textarea id="acc_url" name="acc_url" class="addAccessFrom2"></textarea>
+                    <input name="flag" checked type="checkbox">是否有效
+                    <input class="input" style="height: 30px;background: #02aaf1;color: white"
+                           value="修改" type="submit" onclick="if (confirm('确认修改？')==false)return false; ">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="top">
+    <select onchange="location.href=this.options[this.selectedIndex].value;">
+        <option value ="admin_name">
+            {$Think.session.admin_name}
+        </option>
+        <option value ="/admin/login/admin_update_pwd">修改密码</option>
+        <option value="/admin/login/out_login">退出登录</option>
+    </select>
+</div>
+<div id="left">
+    <img src="__IMG__/admin_head_img.jpg">
+    <ul>
+        <li><a href="/admin">统计分析</a></li>
+        <li><a href="/admin/mt_order">商户订单</a></li>
+        <li><a href="/admin/admin">账号相关</a></li>
+        <li><a href="/admin/merchant">商户相关</a></li>
+        <li><a href="/admin/member">会员相关</a></li>
+        <li><a href="/admin/payment">收款相关</a></li>
+        <li><a href="/admin/rbac">RBAC权限管理</a></li>
+        <li><a href="/admin/notice">群发通知</a></li>
+    </ul>
+</div>
+<div id="dark"></div>
+</body>
+</html>

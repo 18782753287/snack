@@ -1,0 +1,119 @@
+{extend name="../common/model"}
+{block name="title"}{$merchant}{/block}
+{block name="main"}
+<div style="width: 100%;">
+    <img src="__IMG__/merchant/{$merchant}1.jpg" width="100%">
+    <img src="__IMG__/merchant/{$merchant}2.jpg" width="100%">
+    <img src="__IMG__/merchant/{$merchant}3.jpg" width="100%">
+</div>
+<br>
+<form action="/index/purchase/" method="post"
+      style="position: fixed;top: 0;right: 60px;">
+    <input class="a-upload" type="submit" value="关注该店铺"
+           style="background:gold;height: 30px;color: black;">
+    <input hidden name="mt_id" value="{$mt_id}">
+    <input hidden name="flag" value="关注店铺">
+</form>
+<br>
+<div id="goods">
+    {foreach $goods as $good}
+    <div id="good">
+        <a href="/index/shop?goods_id={$good['id']}" target="_blank">
+            <img src="{$good['goods_img']}"><br><br>
+            <pre>{$good['goods_describe']}</pre><br>
+        </a>
+        <br><p id="price">{$good['goods_price']}￥</p><br>
+    </div>
+    {/foreach}
+</div>
+<div>
+    <br><br>
+    <form action="/index/merchant?merchant={$merchant}" method="post">
+        <input style="height: 30px" class="a-upload" name="low" type="submit" value="上一页">
+        <input style="width: 10px" class="a-upload" name="num" type="text" readonly value="{$num}">
+        <input style="height: 30px" class="a-upload" name="up" type="submit" value="下一页">
+    </form>
+    <br><br><br>
+</div>
+<style>
+    a{
+        color: gray;
+        text-decoration: none;
+    }
+    #ppp{
+        color: gray;
+        font-size: 14px
+    }
+    #ppp:hover{
+        color: #FF623D;
+    }
+    #goods{
+        text-align: center;
+        width: 100%;
+        left: 0;
+        transform: translate(5%,0);
+    }
+    #good{
+        border: 2px solid #ccc;
+        width: 22%;
+        float:left;
+    }
+    #goods div:hover{
+        border: 2px solid #FF623D;
+    }
+    #goods div a:hover{
+        opacity: 0.8;
+    }
+    #goods div img{
+        width: 100%;
+    }
+    #goods div pre{
+        height: 16px;
+        width: 100%;
+        color: gray;
+        font-size: 15px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        display:-webkit-box;
+
+    }
+    #goods div pre:hover{
+        color: #FF623D;
+    }
+    #price{
+        color: gold;
+        font-size: 24px;
+    }
+    .a-upload {
+        padding: 4px 10px;
+        height: 20px;
+        line-height: 20px;
+        position: relative;
+        cursor: pointer;
+        color: #888;
+        background: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        display: inline-block;
+        *display: inline;
+        *zoom: 1
+    }
+    .a-upload  input {
+        position: absolute;
+        font-size: 100px;
+        text-align: center;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        cursor: pointer
+    }
+    .a-upload:hover {
+        color: #444;
+        background: #eee;
+        border-color: #ccc;
+        text-decoration: none
+    }
+</style>
+{/block}

@@ -1,0 +1,98 @@
+{extend name="../common/mt_model"}
+{block name="title"}优惠卷发放{/block}
+{block name="main"}
+<style>
+    table{
+        position: absolute;
+        top: 25px;
+        left: 95px;
+        width: 1200px;
+    }
+    table th{
+        background: #6FCBC8;
+        width: 15%;
+        color: white;
+    }
+    table input{
+        width: 92%;
+    }
+    .a-upload {
+        padding: 4px 10px;
+        height: 20px;
+        line-height: 20px;
+        position: relative;
+        cursor: pointer;
+        color: #888;
+        background: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        display: inline-block;
+        *display: inline;
+        *zoom: 1
+    }
+    .a-upload  input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        cursor: pointer
+    }
+    .a-upload:hover {
+        color: #444;
+        background: #eee;
+        border-color: #ccc;
+        text-decoration: none
+    }
+</style>
+<table>
+    <tr>
+        <th></th>
+        <th>用户名</th>
+        <th>发放满减卷</th>
+        <th>发放立减卷</th>
+    </tr>
+    {foreach $mbs as $mb}
+    <tr>
+        <td><img src="{$mb['mb_head_img']}" width="120px" style="border-radius: 100px"></td>
+        <td>{$mb['mb_name']}</td>
+        <td>
+            <form action="/merchant/coupon/coupon_action" method="post">
+                <input class="a-upload" type="text" placeholder="满减条件" name="full">
+                <input class="a-upload" type="text" placeholder="优惠金额" name="sub">
+                <input class="a-upload" type="date" placeholder="截止时间" name="time">
+                <input class="a-upload" type="text" placeholder="发放张数" name="num">
+                <input hidden name="mb_id" value="{$mb['id']}">
+                <input hidden name="type" value="1">
+                <input style="background:pink;color:darkslategray;height: 30px;width: 100%"
+                       class="a-upload" type="submit" value="发放满减卷">
+            </form>
+        </td>
+        <td>
+            <form action="/merchant/coupon/coupon_action" method="post">
+                <input class="a-upload" type="text" value="优惠卷有效期默认为无期限，张数默认为一张"
+                       style="color: blue" readonly>
+                <input class="a-upload" type="text" placeholder="优惠金额" name="sub">
+                <input class="a-upload" type="date" placeholder="截止时间" name="time">
+                <input class="a-upload" type="text" placeholder="发放张数" name="num">
+                <input hidden name="mb_id" value="{$mb['id']}">
+                <input hidden name="type" value="0">
+                <input style="background:pink;color:darkslategray;height: 30px;width: 100%"
+                       class="a-upload" type="submit" value="发放立减卷">
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <th><hr></th>
+        <th><hr></th>
+        <th><hr></th>
+        <th><hr></th>
+    </tr>
+    {/foreach}
+</table>
+
+
+
+{/block}

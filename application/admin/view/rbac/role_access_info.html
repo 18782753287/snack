@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>权限管理</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/admin_model.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/input.css">
+    <script src="__JS__/jQuery.js" type="text/javascript" charset="UTF-8"></script>
+    <style>
+        div{
+            overflow: auto;
+        }
+        pre{
+            font-size: 18px;
+            text-align: left;
+        }
+        table{
+            position: absolute;
+            width: 1100px;
+            left: 25px;
+            top: 30px;
+            text-align: center;
+        }
+        th{
+            width: 25%;
+            height: 30px;
+        }
+        td{
+            border: 1px solid gray;
+        }
+        body{
+            background: white;
+            opacity: 1;
+        }
+        #dark{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: black;
+            z-index: 666;
+            opacity: 0.3;
+        }
+        #accessSet{
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            opacity: 1;
+            z-index: 999;
+            width: 80%;
+            height: 80%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            background: white;
+            border-radius: 20px;
+            text-align: left;
+        }
+        #select input{
+            width: 200px;
+            height: 50px;
+            color: white;
+            background: #02aaf1;
+        }
+        a:hover{
+            color: #02aaf1;
+        }
+        h2{
+            color: #02aaf1;
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+<div id="main">
+    <div class="div">
+        <!--权限管理-->
+        <div id="accessSet">
+            <!--设置角色权限-->
+            <div id="updateAccess" style="position:absolute;top: 10px;left: 20px;width: 95%;height: 95%">
+                <a href="/admin/rbac"
+                   style="font-size: 50px;position: fixed;top: 5px;right: 10px">×</a>
+                <h2>设置</h2><h2 style="color: #FF7F24">{$role['role_name']}</h2><h2>的权限</h2>
+                <form action="/admin/rbac/updateRoleAccess" method="post"
+                      style="position: fixed;left: 50%;top: 50px;transform: translate(-50%,0)">
+                    {foreach $access as $key=>$acc}
+                    <label><br>
+                        <input type="checkbox" class="updateAccessCheckbox" name="access_id{$key}" value="{$acc['id']}">{$acc['title']}
+                    </label><br>
+                    {foreach $role_access as $k=>$role_acc}
+                    {eq name=":$role_acc['access_id']" value=":$acc['id']"}
+                    <script>
+                        var che = document.getElementsByTagName('input');
+                        che["{$key}"].checked = true;
+                    </script>
+                    {/eq}
+                    {/foreach}
+                    {/foreach}<br>
+                    <input id="role_id" hidden name="role_id" value="{$role['id']}">
+                    <input type="submit" style="background: #02aaf1;color: white;height: 30px;float: right"
+                           class="input" value="确认"
+                           onclick="if(confirm('确认？')==false)return false;">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="top">
+    <select onchange="location.href=this.options[this.selectedIndex].value;">
+        <option value ="admin_name">
+            {$Think.session.admin_name}
+        </option>
+        <option value ="/admin/login/admin_update_pwd">修改密码</option>
+        <option value="/admin/login/out_login">退出登录</option>
+    </select>
+</div>
+<div id="left">
+    <img src="__IMG__/admin_head_img.jpg">
+    <ul>
+        <li><a href="/admin">统计分析</a></li>
+        <li><a href="/admin/mt_order">商户订单</a></li>
+        <li><a href="/admin/admin">账号相关</a></li>
+        <li><a href="/admin/merchant">商户相关</a></li>
+        <li><a href="/admin/member">会员相关</a></li>
+        <li><a href="/admin/payment">收款相关</a></li>
+        <li><a href="/admin/rbac">RBAC权限管理</a></li>
+        <li><a href="/admin/notice">群发通知</a></li>
+    </ul>
+</div>
+<div id="dark"></div>
+</body>
+</html>

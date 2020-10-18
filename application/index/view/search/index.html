@@ -1,0 +1,143 @@
+{extend name="../common/search"}
+{block name="title"}搜索结果{/block}
+{block name="main"}
+<div align="center" id="center" style="background: white;height: 100%">
+    <br>
+    {empty name="merchant"}
+        {empty name="goods"}
+            <div style="width: 100%;position: absolute;left: 50%;top: 40%;transform: translate(-50%,-50%)">
+                <h1 style="color: gray">暂无“{$flag}”相关的内容，换个关键词试试</h1>
+            </div>
+        {else/}
+            <h3 style="color: gray">搜　　索　　结　　果</h3><br>
+            <div class="goods">
+            {foreach $goods as $good}
+                <div class="good">
+                    <a href="/index/shop?goods_id={$good['id']}" target="_blank">
+                        <img src="{$good['goods_img']}" width="100%"><br><br>
+                        <pre>{$good['goods_describe']}</pre><br>
+                    </a>
+                    <a href="/index/merchant?merchant={$good['goods_merchant']}" target="_blank">
+                        <p class="ppp">
+                            {$good['goods_merchant']}
+                        </p>
+                    </a>
+                    <br><p class="price">{$good['goods_price']}￥</p><br>
+                </div>
+            {/foreach}
+            </div>
+        {/empty}
+        {else/}
+        {empty name="goods"}
+        <h3 style="color: gray">搜　　索　　结　　果</h3><br>
+            {foreach $merchant as $m}
+                <table>
+                    <tr>
+                        <th width="50%">
+                            <a href="/index/merchant?merchant={$m['mt_name']}" target="_blank">
+                                <img src="{$m['mt_head_img']}" width="100px">
+                            </a>
+                        </th>
+                        <th width="50%">
+                            <a href="/index/merchant?merchant={$m['mt_name']}" target="_blank">
+                                {$m['mt_name']}
+                            </a>
+                        </th>
+                    </tr>
+                </table>
+            {/foreach}
+        {else}
+            <h3 style="color: gray">搜　　索　　结　　果</h3><br>
+            {foreach $merchant as $m}
+                <table>
+                    <tr width="50%">
+                        <th>
+                            <a href="/index/merchant?merchant={$m['mt_name']}" target="_blank">
+                                <img src="{$m['mt_head_img']}" width="100px">
+                            </a>
+                        </th>
+                        <th width="50%">
+                            <a href="/index/merchant?merchant={$m['mt_name']}" target="_blank">
+                                {$m['mt_name']}
+                            </a>
+                        </th>
+                    </tr>
+                </table>
+                <br>
+            {/foreach}
+            <div class="goods">
+            {foreach $goods as $good}
+                <div class="good">
+                    <a href="/index/shop?goods_id={$good['id']}" target="_blank">
+                        <img src="{$good['goods_img']}" width="100%"><br><br>
+                        <pre>{$good['goods_describe']}</pre><br>
+                    </a>
+                    <a href="/index/merchant?merchant={$good['goods_merchant']}" target="_blank">
+                        <p class="ppp">
+                            {$good['goods_merchant']}
+                        </p>
+                    </a>
+                    <br><p class="price">{$good['goods_price']}￥</p><br>
+                </div>
+            {/foreach}
+            </div>
+        {/empty}
+    {/empty}
+    <br><br>
+</div>
+
+<style>
+    a{
+        text-decoration: none;
+        color: gray;
+    }
+    table{
+        width: 92%;
+        border: 1px solid gray;
+    }
+    .ppp{
+        color: gray;
+        font-size: 14px
+    }
+    .ppp:hover{
+        color: #FF623D;
+    }
+    .price{
+        color: gold;
+        font-size: 24px;
+    }
+    .good{
+        border: 2px solid #ccc;
+        width: 18%;
+        float:left;
+    }
+    .goods{
+        text-align: center;
+        width: 100%;
+        left: 0;
+        transform: translate(4%,0);
+    }
+    .goods div:hover{
+        border: 2px solid #FF623D;
+    }
+    .goods div a:hover{
+        opacity: 0.8;
+    }
+    .goods div img{
+        width: 100%;
+    }
+    .goods div pre{
+        height: 16px;
+        width: 100%;
+        color: gray;
+        font-size: 15px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        display:-webkit-box;
+
+    }
+    #goods div pre:hover{
+        color: #FF623D;
+    }
+</style>
+{/block}

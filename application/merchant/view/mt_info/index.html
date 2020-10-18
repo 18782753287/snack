@@ -1,0 +1,170 @@
+{extend name="../common/mt_model"}
+{block name="title"}店铺设计{/block}
+{block name="main"}
+<div id="center">
+    <form action="/merchant/mt_info/info_action" method="post" enctype="multipart/form-data">
+        <table width="1350px">
+            <tr>
+                {eq name=":$mt['mt_head_img']" value=""}
+                <th style="border: 1px solid gray">
+                    <img id="head_img" src="__IMG__/mt_head_default.jpg" width="100px">
+                    <br>
+                    <a href="javascript:" class="a-upload">
+                        <input name="g_img_head" id="g_img_head" style="position: absolute; top: 0; bottom: 0; left: 0;right: 0; opacity: 0;" type="file" onchange="showImg_head(this)"/>
+                        <!-- 自定义按钮效果 -->
+                        <div style="text-align: top">
+                            <span style="font-size: 12px;">点击这里上传文件</span>
+                        </div>
+                    </a>
+                </th>
+                {else/}
+                <th style="border: 1px solid gray">
+                    <img id="head_img" src="{$mt['mt_head_img']}" width="100px">
+                    <br>
+                    <a href="javascript:" class="a-upload">
+                        <input name="g_img_head" id="g_img_head" style="position: absolute; top: 0; bottom: 0; left: 0;right: 0; opacity: 0;" type="file" onchange="showImg_head(this)"/>
+                        <!-- 自定义按钮效果 -->
+                        <div style="text-align: top">
+                            <span style="font-size: 12px;">点击这里上传文件</span>
+                        </div>
+                    </a>
+                </th>
+                {/eq}
+                <th style="border: 1px solid gray">
+                    名称：<input name="mt_name" value="{$mt['mt_name']}" class="a-upload">
+                </th>
+            </tr>
+            <tr>
+                <th colspan="2" style="height: 80px">
+                    店铺海报设置
+                </th>
+            </tr>
+            <tr>
+                <th colspan="2" style="border: 1px solid gray">
+                    <img id="img1" src="__IMG__/merchant/{$mt['mt_name']}1.jpg" width="100%">
+                    <br>
+                    <a href="javascript:" class="a-upload">
+                        <input name="g_img1" id="g_img1" style="position: absolute; top: 0; bottom: 0; left: 0;right: 0; opacity: 0;" type="file" onchange="showImg1(this)"/>
+                        <!-- 自定义按钮效果 -->
+                        <div style="text-align: top">
+                            <span style="font-size: 12px;">点击这里上传文件</span>
+                        </div>
+                    </a>
+                </th>
+            </tr>
+            <tr>
+                <th colspan="2" style="border: 1px solid gray">
+                    <img id="img2" src="__IMG__/merchant/{$mt['mt_name']}2.jpg" width="100%">
+                    <br>
+                    <a href="javascript:" class="a-upload">
+                        <input name="g_img2" id="g_img2" style="position: absolute; top: 0; bottom: 0; left: 0;right: 0; opacity: 0;" type="file" onchange="showImg2(this)"/>
+                        <!-- 自定义按钮效果 -->
+                        <div style="text-align: top">
+                            <span style="font-size: 12px;">点击这里上传文件</span>
+                        </div>
+                    </a>
+                </th>
+            </tr>
+            <tr>
+                <th colspan="2" style="border: 1px solid gray">
+                    <img id="img3" src="__IMG__/merchant/{$mt['mt_name']}3.jpg" width="100%">
+                    <br>
+                    <a href="javascript:" class="a-upload">
+                        <input name="g_img3" id="g_img3" style="position: absolute; top: 0; bottom: 0; left: 0;right: 0; opacity: 0;" type="file" onchange="showImg3(this)"/>
+                        <!-- 自定义按钮效果 -->
+                        <div style="text-align: top">
+                            <span style="font-size: 12px;">点击这里上传文件</span>
+                        </div>
+                    </a>
+                </th>
+            </tr>
+        </table>
+        <input type="submit" value="确认修改" class="a-upload"
+               style="height: 30px;position: fixed;bottom: 30px;right: 60px;background: gold"
+               onclick="if (confirm('确认修改？')==false)return false;">
+    </form>
+</div>
+<style>
+    #center{
+        background: #f7f7f7;
+        position: relative;
+        left: 35px;
+        top: 30px;
+        height: 150px;
+        width: 1350px;
+    }
+    #center th{
+        width: 14%;
+    }
+    .a-upload {
+        padding: 4px 10px;
+        height: 20px;
+        line-height: 20px;
+        position: relative;
+        cursor: pointer;
+        color: #888;
+        background: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        display: inline-block;
+        *display: inline;
+        *zoom: 1
+    }
+    .a-upload  input {
+        position: absolute;
+        font-size: 100px;
+        text-align: center;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        cursor: pointer
+    }
+    .a-upload:hover {
+        color: #444;
+        background: #eee;
+        border-color: #ccc;
+        text-decoration: none
+    }
+</style>
+<script>
+    function showImg1(input) {
+        var file = input.files[0];
+        var reader = new FileReader();
+        // 图片读取成功回调函数
+        reader.onload = function(e) {
+            document.getElementById('img1').src=e.target.result
+        };
+        reader.readAsDataURL(file)
+    }function showImg2(input) {
+        var file = input.files[0];
+        var reader = new FileReader();
+        // 图片读取成功回调函数
+        reader.onload = function(e) {
+            document.getElementById('img2').src=e.target.result
+        };
+        reader.readAsDataURL(file)
+    }
+    function showImg3(input) {
+        var file = input.files[0];
+        var reader = new FileReader();
+        // 图片读取成功回调函数
+        reader.onload = function(e) {
+            document.getElementById('img3').src=e.target.result
+        };
+        reader.readAsDataURL(file)
+    }
+    function showImg_head(input) {
+
+        var file = input.files[0];
+        var reader = new FileReader();
+
+        // 图片读取成功回调函数
+        reader.onload = function(e) {
+            document.getElementById('head_img').src=e.target.result
+        };
+        reader.readAsDataURL(file);
+    }
+</script>
+{/block}

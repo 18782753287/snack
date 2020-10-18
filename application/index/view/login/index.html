@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>用户登陆页面</title>
+    <link rel="stylesheet" href="__CSS__/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__CSS__/style-mb.css">
+</head>
+
+<body background="__IMG__/bg.png">
+<div class="materialContainer">
+    <form action="/index/login/check" method="post">
+    <div class="box">
+        <div class="title">登录</div>
+        <div class="input">
+            <label for="name">用户名</label>
+            <input type="text" name="name" id="name">
+            <span class="spin"></span>
+    </div>
+        <div class="input">
+            <label for="pass">密码</label>
+            <input type="password" name="pass" id="pass">
+            <span class="spin"></span>
+        </div>
+        <div class="button login">
+            <button>
+                <span>登录</span>
+                <i class="fa fa-check"></i>
+            </button>
+        </div>
+        <a href="/index/login/input_email" class="pass-forgot">忘记密码？</a>
+    </div>
+    </form>
+    <form action="/index/login/sign_up" method="post">
+
+        <div class="overbox">
+        <div class="material-button alt-2">
+            <span class="shape"></span>
+        </div>
+        <div class="title">注册</div>
+        <div class="input">
+            <label for="regname">用户名</label>
+            <input name="mb_name" type="text" id="regname">
+            <span class="spin"></span>
+        </div>
+        <div class="input">
+            <label for="regpass">密码</label>
+            <input name="mb_pwd" type="password" id="regpass">
+            <span class="spin"></span>
+        </div>
+        <div class="input">
+            <label for="email">邮箱</label>
+            <input name="mb_email" type="email" id="email">
+            <span class="spin"></span>
+        </div>
+        <div class="button">
+            <button onclick="javascript:return confirm('发送验证码到该邮箱？');">
+                <span>注册</span>
+            </button>
+        </div>
+    </div>
+    </form>
+</div>
+<script src="__JS__/mb-jquery.min.js"></script>
+<script src="__JS__/index.js"></script>
+</body>
+
+</html>

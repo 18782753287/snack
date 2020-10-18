@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {block name="title"}{/block}
+    </title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/mt_model.css">
+</head>
+<body>
+    <div id="main">
+        <div class="div">
+            {block name="main"}{/block}
+        </div>
+    </div>
+    <div id="top" style="position: fixed">
+        <select onchange="location.href=this.options[this.selectedIndex].value;">
+            <option value ="admin_name">
+                {$Think.session.mt_name}
+            </option>
+            <option value ="/merchant/login/mt_update_pwd">修改密码</option>
+            <option value="/merchant/login/out_login">退出登录</option>
+        </select>
+    </div>
+    <div id="left" style="position: fixed">
+        {eq name=":$Think.session.mt_head_img" value=""}
+        <img src="__IMG__/mt_head_default.jpg">
+        {else/}
+        <img src="{$Think.session.mt_head_img}">
+        {/eq}
+        <ul>
+            <li><a href="/merchant">统计分析</a></li>
+            <li><a href="/merchant/mt_order">商户订单</a></li>
+            <li><a href="/merchant/mt_info">店铺设计</a></li>
+            <li><a href="/merchant/goods">商品相关</a></li>
+            <li><a href="/merchant/member">会员相关</a></li>
+            <li><a href="/merchant/payment">收款相关</a></li>
+            <li><a href="/merchant/coupon">优惠卷详情</a></li>
+            <li><a href="/merchant/coupon/coupon_send">优惠卷发放</a></li>
+        </ul>
+    </div>
+</body>
+</html>

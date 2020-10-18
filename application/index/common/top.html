@@ -1,0 +1,28 @@
+<!--头部,搜索框等-->
+<link rel="stylesheet" type="text/css" href="__CSS__/top.css">
+
+<div id="top">
+
+    <ul>
+        <li class="left"><a href="/"><h1 style="font-size: 30px">零食网</h1></a></li>
+
+        <li>{include file="../common/search_box"}</li>
+
+        <li class="right">
+            {eq name="mb_name" value=""}
+            <a href="/index/login">
+                <ul><img class="head_img" src="__IMG__/head_img.jpg"></ul>
+                <ul class="mb_name">点此登陆</ul>
+            </a>
+            {else/}
+            <a href="/index/index/my_info">
+                <ul><img class="head_img" src="{$mb_head_img}"></ul>
+                <ul class="mb_name">您好，{$mb_name}</ul>
+            </a>
+            {/eq}
+        </li>
+    </ul>
+</div>
+<div id="add">
+    <img class="add" src="__IMG__/add.png">
+</div>

@@ -1,0 +1,117 @@
+{extend name="../common/admin_model"}
+{block name="title"}账户相关{/block}
+{block name="main"}
+<div id="center">
+    <table width="1350px">
+        <tr>
+            <th style="background: #5eb4b1;color: white"></th>
+            <th style="background: #5eb4b1;color: white">管理员ID</th>
+            <th style="background: #5eb4b1;color: white">管理员名称</th>
+            <th style="background: #5eb4b1;color: white">管理员邮箱</th>
+            <th style="background: #5eb4b1;color: white">创建时间</th>
+            <th style="background: #5eb4b1;color: white">管理员级别</th>
+            <th style="background: #5eb4b1;color: white">操作</th>
+        </tr>
+        {foreach $admin as $a}
+        <tr>
+            <th><img src="__IMG__/admin_head_img.jpg" style="width: 50%;border-radius: 100%"></th>
+            <th>{$a['id']}</th>
+            <th>{$a['admin_name']}</th>
+            <th>{$a['admin_email']}</th>
+            <th>{$a['create_time']}</th>
+            {eq name=":$a['admin_status']" value="0"}
+            <th style="color: red">超级管理员</th>
+            {/eq}
+            {eq name=":$a['admin_status']" value="1"}
+            <th>普通管理员</th>
+            {/eq}
+            {eq name=":$a['admin_status']" value="2"}
+            <th style="color: gray">已经被停用</th>
+            {/eq}
+            {eq name=":$a['admin_status']" value="3"}
+            <th style="color: blue">还在审核中</th>
+            {/eq}
+            {eq name=":$a['admin_status']" value="0"}
+            <th style="color: gray">/</th>
+            {else/}
+            <th>
+                <form action="/admin/admin/update" method="post">
+                    <input type="submit" class="a-upload" value="删除" name="flag"
+                           onclick="if (confirm('确认删除该管理员？')==false)return false;"
+                           style="text-align: center;height: 30px">
+                    {eq name=":$a['admin_status']" value="2"}
+                    <input type="submit" class="a-upload" value="启用" name="flag"
+                           onclick="if (confirm('确认启用该管理员？')==false)return false;"
+                           style="text-align: center;height: 30px;background: gold;color: black">
+                    {/eq}
+                    {eq name=":$a['admin_status']" value="1"}
+                    <input type="submit" class="a-upload" value="停用" name="flag"
+                           onclick="if (confirm('确认停用该管理员？')==false)return false;"
+                           style="text-align: center;height: 30px;background: hotpink;color: black">
+                    {/eq}
+                    {eq name=":$a['admin_status']" value="3"}
+                    <input type="submit" class="a-upload" value="通过" name="flag"
+                           onclick="if (confirm('确认审核通过该管理员？')==false)return false;"
+                           style="text-align: center;height: 30px;background: lightskyblue;color: black">
+                    {/eq}
+                    <input hidden name="admin_id" value="{$a['id']}">
+                </form>
+            </th>
+            {/eq}
+        </tr>
+        <tr>
+            <th><hr></th>
+            <th><hr></th>
+            <th><hr></th>
+            <th><hr></th>
+            <th><hr></th>
+            <th><hr></th>
+            <th><hr></th>
+        </tr>
+        {/foreach}
+    </table>
+</div>
+<style>
+    #center{
+        background: #f7f7f7;
+        position: relative;
+        left: 35px;
+        top: 30px;
+        height: 150px;
+        width: 100%;
+    }
+    #center th{
+        width: 10%;
+    }
+    .a-upload {
+        padding: 4px 10px;
+        height: 20px;
+        line-height: 20px;
+        position: relative;
+        cursor: pointer;
+        color: #888;
+        background: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        display: inline-block;
+        *display: inline;
+        *zoom: 1
+    }
+    .a-upload  input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        cursor: pointer
+    }
+    .a-upload:hover {
+        color: #444;
+        background: #eee;
+        border-color: #ccc;
+        text-decoration: none
+    }
+</style>
+{/block}

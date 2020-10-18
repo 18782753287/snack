@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {block name="title"}{/block}
+    </title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/admin_model.css">
+</head>
+<body>
+    <div id="main">
+        <div class="div">
+            {block name="main"}{/block}
+        </div>
+    </div>
+    <div id="top">
+        <select onchange="location.href=this.options[this.selectedIndex].value;">
+            <option value ="admin_name">
+                {$Think.session.admin_name}
+            </option>
+            <option value ="/admin/login/admin_update_pwd">修改密码</option>
+            <option value="/admin/login/out_login">退出登录</option>
+        </select>
+    </div>
+    <div id="left">
+        <img src="__IMG__/admin_head_img.jpg">
+        <ul>
+            <li><a href="/admin">统计分析</a></li>
+            <li><a href="/admin/mt_order">商户订单</a></li>
+            <li><a href="/admin/admin">账号相关</a></li>
+            <li><a href="/admin/merchant">商户相关</a></li>
+            <li><a href="/admin/member">会员相关</a></li>
+            <li><a href="/admin/payment">收款相关</a></li>
+            <li><a href="/admin/rbac">RBAC权限管理</a></li>
+            <li><a href="/admin/notice">群发通知</a></li>
+        </ul>
+    </div>
+</body>
+</html>

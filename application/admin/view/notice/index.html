@@ -1,0 +1,60 @@
+{extend name="../common/admin_model"}
+{block name="title"}群发通知{/block}
+{block name="main"}
+<div id="center">
+    <form style="position:absolute;left:50%;top: 100%;transform: translate(-50%,-50%)"
+        action="/admin/notice/action" method="post">
+        <br><br><br><br><br><br><br><br><br>
+        <input type="text" name="title" placeholder="通知标题" style="width:450px;" value="测试标题">
+        <br>
+        <textarea name="content" placeholder="通知内容" style="width: 450px;height: 300px">测试内容</textarea>
+        <br>
+        <input type="submit" value="发送"
+               onclick="if (confirm('确认向所有会员发送通知？')==false)return false;">
+    </form>
+</div>
+<style>
+    #center{
+        background: #f7f7f7;
+        position: relative;
+        left: 35px;
+        top: 30px;
+        height: 150px;
+        width: 1350px;
+    }
+    #center th{
+        width: 14%;
+    }
+    .a-upload {
+        padding: 4px 10px;
+        height: 20px;
+        line-height: 20px;
+        position: relative;
+        cursor: pointer;
+        color: #888;
+        background: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        display: inline-block;
+        *display: inline;
+        *zoom: 1
+    }
+    .a-upload  input {
+        position: absolute;
+        font-size: 100px;
+        text-align: center;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        cursor: pointer
+    }
+    .a-upload:hover {
+        color: #444;
+        background: #eee;
+        border-color: #ccc;
+        text-decoration: none
+    }
+</style>
+{/block}

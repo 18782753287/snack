@@ -1,0 +1,106 @@
+{extend name="../common/admin_model"}
+{block name="title"}商户相关{/block}
+{block name="main"}
+<div id="center">
+    <table width="1350px">
+        <tr>
+            <th style="background: #5eb4b1;color: white">商户头像</th>
+            <th style="background: #5eb4b1;color: white">商户ID</th>
+            <th style="background: #5eb4b1;color: white">商户名称</th>
+            <th style="background: #5eb4b1;color: white">状态</th>
+            <th style="background: #5eb4b1;color: white">商户邮箱</th>
+            <th style="background: #5eb4b1;color: white">手续费收费比例</th>
+            <th style="background: #5eb4b1;color: white">操作</th>
+        </tr>
+        {foreach $mts as $mt}
+        <tr>
+            {eq name=":$mt['mt_head_img']" value=""}
+            <th><img src="__IMG__/mt_head_default.jpg" width="50%" style="border-radius: 100px"></th>
+            {else/}
+            <th><img src="{$mt['mt_head_img']}" width="50%" style="border-radius: 100px"></th>
+            {/eq}
+            <th>{$mt['id']}</th>
+            <th>{$mt['mt_name']}</th>
+            {eq name=":$mt['mt_status']" value="0"}
+            <th style="color: red">未运营</th>
+            {/eq}
+            {eq name=":$mt['mt_status']" value="2"}
+            <th style="color: gold">运营中</th>
+            {/eq}
+            <th>{$mt['mt_email']}</th>
+            <th>
+                <form action="/admin/merchant/update_ratio" method="post">
+                    <input class="a-upload" value="{$mt['mt_ratio']}" name="ratio" style="width: 30%">
+                    <input hidden value="{$mt['id']}" name="mt_id">
+                    <input class="a-upload" value="修改" type="submit" style="height: 30px"
+                           onclick="if (confirm('确认修改商户的收费比率？')==false)return false;">
+                </form>
+            </th>
+            {eq name=":$mt['mt_status']" value="0"}
+            <th>
+                <form action="/admin/merchant/pass_mt" method="post">
+                    <input style="height: 30px;width: 100%;background: lightskyblue;color: black" type="submit" value="通过审核" class="a-upload"
+                           onclick="if (confirm('通过该商户的审核？')==false)return false;">
+                    <input hidden value="{$mt['id']}" name="mt_id">
+                </form>
+            </th>
+            {else/}
+            <th>
+                <form action="/admin/merchant/delete_mt" method="post">
+                    <input style="height: 30px;width: 100%;background: lightpink;color: black" type="submit" value="删除" class="a-upload"
+                           onclick="if (confirm('确认删除该商户？')==false)return false;">
+                    <input hidden value="{$mt['id']}" name="mt_id">
+                </form>
+            </th>
+            {/eq}
+        </tr>
+        <tr>
+            <th colspan="7"><hr></th>
+        </tr>
+        {/foreach}
+    </table>
+</div>
+<style>
+    #center{
+        background: #f7f7f7;
+        position: relative;
+        left: 35px;
+        top: 30px;
+        height: 150px;
+        width: 1350px;
+    }
+    #center th{
+        width: 15%;
+    }
+    .a-upload {
+        padding: 4px 10px;
+        height: 20px;
+        line-height: 20px;
+        position: relative;
+        cursor: pointer;
+        color: #888;
+        background: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        display: inline-block;
+        *display: inline;
+        *zoom: 1
+    }
+    .a-upload  input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        cursor: pointer
+    }
+    .a-upload:hover {
+        color: #444;
+        background: #eee;
+        border-color: #ccc;
+        text-decoration: none
+    }
+</style>
+{/block}

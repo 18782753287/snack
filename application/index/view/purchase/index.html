@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>收银台</title>
+</head>
+<body background="__PAY_IMG__" style="width:100%;height:100%;background-size: 100%">
+<style>
+    .a-upload {
+        padding: 4px 10px;
+        height: 20px;
+        line-height: 20px;
+        position: relative;
+        cursor: pointer;
+        color: #888;
+        background: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        display: inline-block;
+        *display: inline;
+        *zoom: 1
+    }
+    .a-upload  input {
+        position: absolute;
+        font-size: 100px;
+        text-align: center;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        cursor: pointer
+    }
+    .a-upload:hover {
+        color: #444;
+        background: #eee;
+        border-color: #ccc;
+        text-decoration: none
+    }
+    .coupon_table{
+        background: lightskyblue;
+        border-radius: 10px;
+    }
+    .coupon_table th{
+        background: lightskyblue;
+        width: 20%;
+    }
+</style>
+    <div style="position: absolute;left: 50%;top: 65px;transform: translate(-50%,0);text-align: center">
+        <div>
+            <div style="width: 600px;text-align: center">
+                <h1>商品信息</h1>
+                <h4>订单编号：
+                    {for start="0" end=":$goods_end"}
+                    {eq name=":$i" value="0"}
+                    <u>{$order_num[$i]}</u>
+                    {else/}
+                    、<u>{$order_num[$i]}</u>
+                    {/eq}
+                    {/for}
+                </h4>
+                <h4>订单总额：{$order_price}￥</h4>
+                <h4>商品总量：× {$goods_num}</h4>
+                <h4>用户名称：{$order_mb}</h4>
+                <h4>店铺名称：
+                    {for start="0" end=":$mt_end"}
+                    {eq name=":$i" value="0"}
+                    <u>{$order_mt[$i]}</u>
+                    {else/}
+                    、<u>{$order_mt[$i]}</u>
+                    {/eq}
+                    {/for}
+                </h4>
+                <label>
+                    <h4 style="color: red">请在下方选择支付方式和使用优惠卷</h4>                </label>
+                <form action="/alipay/pay" method="post" style="display: inline">
+                    <input name="pay" class="a-upload"
+                           style="height: 30px;background: #02aaf1;color: black" type="submit" value="支付宝支付">
+                    <input hidden name="order_num" value="{$order_num['0']}">
+                    <input hidden name="order_price" value="{$order_price}">
+                    <input hidden id="ali_coupon_id" name="coupon_id" value="">
+                </form>
+                <form action="/wechatpay/pay" method="post" style="display: inline">
+                    <input name="pay" class="a-upload"
+                           style="height: 30px;background: yellowgreen;color: black" type="submit" value="微信支付">
+                    <input hidden name="order_num" value="{$order_num['0']}">
+                    <input hidden name="order_price" value="{$order_price}">
+                    <input hidden id="wechat_coupon_id" name="coupon_id" value="">
+                </form><br>
+            </div>
+        </div>
+        <div id="goods">
+            <br>
+            <table width="600px" style="border: 1px solid gray;font-size: 14px">
+                {for start="0" end=":$goods_end"}
+                <tr>
+                    <th width="20%"><img src="{$goods[$i]['goods_img']}" width="100%"></th>
+                    <th>{$order_num[$i]}</th>
+                    <th>{$goods[$i]['goods_merchant']}</th>
+                    <th>{$goods[$i]['goods_name']}</th>
+                    <th>× {$goods[$i]['goods_num']}</th>
+                    <th style="font-size: 12px;color: #FF7F24;">
+                        <label>
+                            优惠卷<input class="coupon_switch" type="checkbox" onclick='show_coupon("{$i}")'>
+                        </label>
+                    </th>
+                </tr>
+                <tr style="display: none" class="coupon_tr">
+                    <th colspan="6">
+                        {foreach $coupon as $c}
+                        {eq name=":$c['mt_name']" value=":$goods[$i]['goods_merchant']"}
+                        <br>
+                        <table class="coupon_table" style="height: 130px;width: 100%;color: gray">
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th>|</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th width="33%" style="color: green">{$c['mt_name']}</th>
+                                <th width="33%">
+                                    {eq name=":$c['type']" value="0"}
+                                    立减卷
+                                    {else/}
+                                    满减卷
+                                    {/eq}
+                                </th>
+                                <th width="1%">|</th>
+                                <th width="33%" style="font-size: 24px">× {$c['num']}</th>
+                                <th>
+                                    <label>
+                                        <p style="color: gold;display: inline;font-size: 15px">👉</p>
+                                        <input type="checkbox" class="temp_id" name="temp_id" value="{$c['id']}"
+                                               onclick='show_coupon_id()'>
+                                        <input hidden class="goods_id" value="{$goods[$i]['id']}">
+                                    </label>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th><img src="{$c['mt_head_img']}" width="50px" style="border-radius: 100px"></th>
+                                <th>{eq name=":$c['type']" value="0"}
+                                    立减：<p style="display: inline;color: red">{$c['sub']}￥</p>
+                                    {else/}
+                                    满：<p style="display: inline;color: red">{$c['full']}￥</p>
+                                    减：<p style="display: inline;color: red">{$c['sub']}￥</p>
+                                    {/eq}
+                                </th>
+                                <th>|</th>
+                                <th style="font-size: 12px">
+                                    有效期至：<br>
+                                    {eq name=":$c['time']" value="0"}
+                                    --/--/--
+                                    {else/}
+                                    {$c['time']|date="Y-m-d"}
+                                    {/eq}
+                                </th>
+                                <th>使用张数：
+                                    {if $goods[$i]['goods_num'] <= $c['num']}
+                                    <input class="a-upload" style="text-align: center" onclick="show_coupon_id()"
+                                           name="coupon_num" value="1" type="number" max="{$goods[$i]['goods_num']}" min="1">
+                                    {else/}
+                                    <input class="a-upload" style="text-align: center" onclick="show_coupon_id()"
+                                           name="coupon_num" value="1" type="number" max="{$c['num']}" min="1">
+                                    {/if}
+                                </th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th>|</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </table>
+                        {/eq}
+                        {/foreach}
+                    </th>
+                </tr>
+                {eq name=":$i" value=":$goods_end-1"}{else/}
+                <tr>
+                    <th colspan="6"><hr></th>
+                </tr>
+                {/eq}
+                {/for}
+            </table><br><br><br>
+        </div>
+    </div>
+<script>
+    function show_coupon(j){
+        var coupon_tr = document.getElementsByClassName('coupon_tr');
+        var coupon_switch = document.getElementsByClassName('coupon_switch');
+        if (!coupon_switch[j].checked){
+            coupon_tr[j].style.display = 'none';
+            var temp_id = document.getElementsByClassName('temp_id');
+            var wechat_coupon_id = document.getElementById('wechat_coupon_id');
+            var ali_coupon_id = document.getElementById('ali_coupon_id');
+            for (var i=0;i<temp_id.length;i++){
+                temp_id[i].checked = false;
+                wechat_coupon_id.value = '';
+                ali_coupon_id.value = '';
+            }
+        }else{
+            coupon_tr[j].style.display = '';
+        }
+    }
+    function show_coupon_id(){
+        var coupon_arr = new Array();
+        var z=0;
+        var goods_id = document.getElementsByClassName('goods_id');
+        var coupon_num = document.getElementsByName('coupon_num');
+        var temp_id = document.getElementsByClassName('temp_id');
+        var wechat_coupon_id = document.getElementById('wechat_coupon_id');
+        var ali_coupon_id = document.getElementById('ali_coupon_id');
+        for (var i=0;i<temp_id.length;i++){
+            if (temp_id[i].checked){
+                coupon_arr[z] = goods_id[i].value+':'+temp_id[i].value+':'+coupon_num[i].value;
+                z++;
+            }
+            wechat_coupon_id.value = coupon_arr;
+            ali_coupon_id.value = coupon_arr;
+        }
+        //判断使用的优惠卷张数是否合法
+    }
+</script>
+</body>
+</html>

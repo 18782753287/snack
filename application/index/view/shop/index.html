@@ -230,19 +230,39 @@
                     <input name="flag"
                            style="height: 30px;width: 32%" class="a-upload" type="submit" value="进入店铺">
                     <input class="a-upload" style="width: 14%" readonly value="商品件数：">
-                    <input name="goods_num" min="1"
+                    <input id="goods_num" name="goods_num" min="1"
                            style="height: 21px;width: 8%" class="a-upload" type="number" value="1">
-                    <input name="flag" onclick="if (confirm('即将跳转至收银台')==false)return false;"
+                    <input name="flag" onclick="if (buy()==false)return false;"
                            style="float:right;color:black;background: gold;height: 30px;width: 32%" class="a-upload" type="submit" value="￥购买">
                     <br><br>
                     <input name="flag" onclick="if (confirm('关注该店铺？')==false)return false;"
                            style="height: 30px;width: 32%" class="a-upload" type="submit" value="关注店铺">
                     <input name="flag" onclick="if (confirm('收藏此商品？')==false)return false;"
                            style="height: 30px;width: 32%" class="a-upload" type="submit" value="收藏商品">
-                    <input name="flag" onclick="if (confirm('将此商品加入到购物车？')==false)return false;"
+                    <input name="flag" onclick="if (shopCar()==false)return false;"
                            style="float:right;color:white;background: red;height: 30px;width: 32%" class="a-upload" type="submit" value="+加入购物车">
                     <input hidden name="goods_id" value="{$good['id']}">
                     <input hidden name="mt_id" value="{$mt_id}">
+                    <script>
+                        function buy(){
+                            var goods_num = document.getElementById("goods_num");
+                            if (goods_num.value > "{$good['goods_stocks']}"){
+                                alert("该商品库存不足!");
+                                return false;
+                            } else {
+                                return confirm("即将跳转至收银台");
+                            }
+                        }
+                        function shopCar(){
+                            var goods_num = document.getElementById("goods_num");
+                            if (goods_num.value > "{$good['goods_stocks']}"){
+                                alert("该商品库存不足!");
+                                return false;
+                            } else {
+                                return confirm("将此商品加入到购物车？");
+                            }
+                        }
+                    </script>
                 </form>
             </div>
         </div>
